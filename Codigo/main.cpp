@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <Funciones.cpp>
 //#include<alojamiento.h>
 //#include<anfitrion.h>
 //#include<fecha.h>
@@ -10,18 +11,14 @@
 using namespace std;
 
 int main() {
-    unsigned short int n = 0;
-    ifstream archivo;
-    string linea;
-    archivo.open("Alojamientos.txt",ios::ate);
-    if(!archivo){
-        cerr<<"No se pudo abrir "<<endl;
-        return -1;
-    }/*
-    while(getline(archivo,linea)){
-        Alojamiento *alojamientos[n];
-    }
+    unsigned int n = 0;
+    n = cantidadLineas("Alojamientos.txt");
+
+    Alojamiento *alojamientos[n];
+
     Anfitrion anfitriones[n];
+
+    crearAlojamientos(&alojamientos,&anfitriones);
 
     Huesped huespedes[n];
 
@@ -39,10 +36,8 @@ int main() {
 
     }else{
 
-    }*/
-    getline(archivo,linea);
-    archivo.close();
-    cout<<linea;
+    }
+
 
     return 0;
 }
