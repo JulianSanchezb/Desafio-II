@@ -1,3 +1,3 @@
 #include "alojamiento.h"
 
-Alojamiento::Alojamiento() {}
+Alojamiento::Alojamiento(string _nombre) {}

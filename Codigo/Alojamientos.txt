@@ -1,0 +1,5 @@
+100001 nombre anfitrion ubicacion(dept/mun o ciud) direccion caracteriscas
+100002
+100003
+100004
+100005

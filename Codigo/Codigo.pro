@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        Funciones.cpp \
         alojamiento.cpp \
         anfitrion.cpp \
         fecha.cpp \
@@ -19,7 +20,7 @@ HEADERS += \
     reserva.h
 
 DISTFILES += \
-    Alojamientos \
-    Reserva \
-    comentarios \
-    usuarios
+    Alojamientos.txt \
+    Comentarios.txt \
+    Reserva.txt \
+    Usuarios.txt
