@@ -1,3 +1,7 @@
 #include "huesped.h"
 
-Huesped::Huesped() {}
+Huesped::Huesped() {
+    puntuacion = "";
+    antiguedad = "";
+    documento = "";
+}

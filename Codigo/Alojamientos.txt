@@ -1,5 +1,5 @@
-100001 nombre anfitrion ubicacion(dept/mun o ciud) direccion caracteriscas
-100002
+100001-nombre-docanfitrion-puntuacionA-Antigüedad-tipo-ubicacion(dept/mun o ciud)-direccion-precio-caracteriscas
+100002 Casaluna 1022002752 4.3 1.5 0 Antioquia-Medellin Cra-1#1-sur-120 150000 Ascensor,2-baños,cocina,2-habitaciones
 100003
 100004
 100005
