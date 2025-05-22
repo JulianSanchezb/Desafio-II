@@ -13,7 +13,8 @@ Alojamiento::Alojamiento(){
     unsigned short int count = 0;
 }*/
 
-Alojamiento::Alojamiento(string _nombre, string *_codigo, string *_documento, bool _tipo, string _ubicacion, string _direccion, unsigned int _precio, string _amenidades, Reserva *_reservas) {
+Alojamiento::Alojamiento(string _nombre, string *_codigo, string *_documento, bool _tipo,string _ubicacion,
+                         string _direccion, unsigned int _precio, string _amenidades, Reserva *_reservas) {
     nombre = _nombre;
     codigo = _codigo;
     documento = _documento;
@@ -34,9 +35,14 @@ string Alojamiento::getCodigo(){
     return codigo;
 }
 
-string Alojamiento::getDocumento(){
+string& Alojamiento::getDocumento() {
     return documento;
 }
+
+const string& Alojamiento::getDocumento() const {
+    return documento;
+}
+
 
 bool Alojamiento::getTipo(){
     return tipo;
@@ -64,17 +70,18 @@ void Alojamiento::setNombre(const string& _nombre){
     nombre = _nombre;
 }
 
-void Alojamiento::setCodigo(string& _codigo){
+void Alojamiento::setCodigo(const string& _codigo){
     codigo = _codigo;
 }
 
-void Alojamiento::setDocumento(const string *_documento){
+void Alojamiento::setDocumento(const string& _documento){
     documento = _documento;
 }
 
 void Alojamiento::setTipo(const bool& _tipo){
     tipo = _tipo;
 }
+
 
 void Alojamiento::setUbicacion(const string& _ubicacion){
     ubicacion = _ubicacion;
@@ -88,7 +95,7 @@ void Alojamiento::setPrecio(unsigned int _precio){
     precio = _precio;
 }
 
-void Alojamiento::setAmenidades(const string& _ameninades){
+void Alojamiento::setAmenidades(const string& _amenidades){
     amenidades = _amenidades;
 }
 

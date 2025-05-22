@@ -1,5 +1,7 @@
 #include "fecha.h"
 using namespace std;
+
+
 Fecha::Fecha() {
     dia = 1;
     mes = 1;

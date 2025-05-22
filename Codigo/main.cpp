@@ -13,12 +13,12 @@ using namespace std;
 int main() {
     unsigned int n = 0;
     n = cantidadLineas("Alojamientos.txt");
+    Alojamiento** alojamientos = new Alojamiento*[n];
+    n = cantidadLineas("Alojamientos.txt");
+    Anfitrion* anfitriones = new Anfitrion[n];
 
-    Alojamiento *alojamientos[n];
+    crearAlojamientos(alojamientos, anfitriones);
 
-    Anfitrion anfitriones[n];
-
-    crearAlojamientos(&alojamientos,&anfitriones);
 
     Huesped huespedes[n];
 

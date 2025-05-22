@@ -9,64 +9,65 @@
 
 using namespace std;
 
-unsigned int cantidadLineas(string nombre){
-    ifstream archivo( nombre, ios::ate); // abre y posiciona al final
-
+void cantidadLineas(string nombre, unsigned int &alojam,unsigned int &anfitri){
+    ifstream archivo(nombre); // abre y posiciona al final
+    string linea,codigo,documento;
+    string arr[100];
+    bool comprobacion = true;
     if (!archivo) {
         cerr << "No se pudo abrir el archivo.\n";
         return 1;
     }
+    while (getline(archivo,linea)){
+        alojam ++;
+        stringstream iss(linea);
+        iss >>codigo >>nombre>>documento;
 
-    streampos tamanio = archivo.tellg(); // tamaño total
-    string linea;
-    char ch;
-
-    for (streamoff i = tamanio - 1; i >= 0; --i) {
-        archivo.seekg(i);
-        archivo.get(ch);
-
-        if (ch == '\n' && i != tamanio - 1) {
-            break;
+        if(alojam == 1){
+            arr[0] =  documento;
+            anfitri++;
         }
 
-        linea.insert(linea.begin(), ch);
+        for(unsigned short int i = 0 ; i < 100 ; i++){
+            if(arr[i] == ""){break;}
 
-        if (i == 0) break;  // evita underflow
+            if(documento == arr[i]){
+                comprobacion = false;
+                break;
+            }
+        }
+        if(comprobacion){
+            arr[anfitri] = documento;
+            anfitri++;
+        }else{
+            comprobacion = true;
+        }
     }
-
-    unsigned int c = 0;
-    string cantidad;
-    istringstream iss(linea);
-    iss >> cantidad;
-    cantidad.erase(0,1);
     archivo.close();
-
-    return (c = stoi(cantidad));
 }
 
-void crearAlojamientos(Alojamiento *alojamientos,Anfitrion *anfitriones){
-    fstream archivo;
+void crearAlojamientos(Alojamiento** alojamientos, Anfitrion* anfitriones) {
+    fstream archivo("Alojamientos.txt");
     string linea;
-    archivo.open("Alojamientos.txt");
-    if(!archivo){
-        cerr<<"No se pudo abrir "<<endl;
-        return nullptr;
+    if (!archivo) {
+        cerr << "No se pudo abrir el archivo" << endl;
+        return;
     }
-    string codigo, documento, puntuacion, antiguedad, tipo, ubicacion, direccion, amenidades, precio;
 
+    string codigo, documento, puntuacion, antiguedad, tipo, ubicacion, direccion, amenidades, precio;
     unsigned int c = 0;
 
-    while(getline(archivo,linea)){
+    while (getline(archivo, linea)) {
         stringstream iss(linea);
-        iss << codigo << documento <<puntuacion << antiguedad << tipo << ubicacion << direccion << precio << amenidades;
+        iss >> codigo >> documento >> puntuacion >> antiguedad >> tipo >> ubicacion >> direccion >> precio >> amenidades;
 
-        anfitriones[c] = Anfitrion(puntuacion,antiguedad,documento,nullptr);
+        anfitriones[c] = Anfitrion(puntuacion, antiguedad, documento, nullptr);
+        alojamientos[c] = new Alojamiento(codigo, &(anfitriones[c].getDocumento()), stoi(tipo), ubicacion, direccion, stoi(precio), amenidades, nullptr);
+        anfitriones[c].setCodigo(); // Asumo que esto lo modifica internamente
 
-        alojamientos[c] = new Alojamiento(codigo,*(anfitriones[c].getDocumento()),stoi(tipo),ubicacion,direccion,stoi(precio),amenidades,nullptr);
-
-        anfitriones[c].setCodigo();
-
+        ++c;
     }
-}
 
+    archivo.close();
+}
 

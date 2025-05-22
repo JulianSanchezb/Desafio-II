@@ -18,6 +18,7 @@ private:
     string comentario;
 public:
     bool verificarFecha();
+    int valor_reserva();
     void comprobante();
 
     // Getters
