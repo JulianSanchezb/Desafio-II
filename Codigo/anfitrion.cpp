@@ -1,12 +1,13 @@
 #include "anfitrion.h"
 using namespace std;
 
-Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento, string _alojamientos) {
+Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) {
     puntuacion = _puntuacion;
     antiguedad = _antiguedad;
     documento = _documento;
-    alojamientos[c] = _alojamientos;
-    c++;
+    for(int i = 0;i < 20;i++){
+        alojamientos[i] = nullptr;
+    }
 }
 
 // Getters
@@ -22,8 +23,8 @@ string Anfitrion::getDocumento() {
     return documento;
 }
 
-string* Anfitrion::getAlojamiento(int index) {
-    if (index >= 0 && index < 20) {
+Alojamiento* Anfitrion::getAlojamiento(int index) {
+    if (index >= 0 && index < 20 && index < c) {
         return alojamientos[index];
     }
     return nullptr;
@@ -41,7 +42,7 @@ void Anfitrion::setDocumento(const string& _documento) {
     documento = _documento;
 }
 
-void Anfitrion::setAlojamiento(int index, string* _alojamiento) {
+void Anfitrion::setAlojamiento(int index, Alojamiento *_alojamiento) {
     if (index >= 0 && index < 20) {
         alojamientos[index] = _alojamiento;
     }

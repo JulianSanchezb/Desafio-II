@@ -11,11 +11,10 @@
 using namespace std;
 
 int main() {
-    unsigned int n = 0;
-    n = cantidadLineas("Alojamientos.txt");
-    Alojamiento** alojamientos = new Alojamiento*[n];
-    n = cantidadLineas("Alojamientos.txt");
-    Anfitrion* anfitriones = new Anfitrion[n];
+    unsigned int alojam = 0,anfitri = 0;
+    cantidadLineas("Alojamientos.txt", alojam, anfitri);
+    Alojamiento* alojamientos = new Alojamiento*[alojam];
+    Anfitrion* anfitriones = new Anfitrion[anifitri];
 
     crearAlojamientos(alojamientos, anfitriones);
 

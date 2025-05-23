@@ -46,7 +46,7 @@ void cantidadLineas(string nombre, unsigned int &alojam,unsigned int &anfitri){
     archivo.close();
 }
 
-void crearAlojamientos(Alojamiento** alojamientos, Anfitrion* anfitriones) {
+void crearAlojamientos(Alojamiento* alojamientos, Anfitrion* anfitriones,const unsigned int &alojam, const unsigned int &anfitri) {
     fstream archivo("Alojamientos.txt");
     string linea;
     if (!archivo) {
@@ -54,19 +54,41 @@ void crearAlojamientos(Alojamiento** alojamientos, Anfitrion* anfitriones) {
         return;
     }
 
-    string codigo, documento, puntuacion, antiguedad, tipo, ubicacion, direccion, amenidades, precio;
-    unsigned int c = 0;
+    string codigo,nombre, documento, puntuacion, antiguedad, tipo, ubicacion, direccion, amenidades, precio;
+    unsigned int contaAlojam = 0,contaAnfitri = 0;
+    Alojamiento ptr = nullptr;
+    bool bandera = true;
 
     while (getline(archivo, linea)) {
         stringstream iss(linea);
-        iss >> codigo >> documento >> puntuacion >> antiguedad >> tipo >> ubicacion >> direccion >> precio >> amenidades;
+        iss >> codigo >> nombre >> documento >> puntuacion >> antiguedad >> tipo >> ubicacion >> direccion >> precio >> amenidades;
 
-        anfitriones[c] = Anfitrion(puntuacion, antiguedad, documento, nullptr);
-        alojamientos[c] = new Alojamiento(codigo, &(anfitriones[c].getDocumento()), stoi(tipo), ubicacion, direccion, stoi(precio), amenidades, nullptr);
-        anfitriones[c].setCodigo(); // Asumo que esto lo modifica internamente
+        if(contaAnfitri == 0){
+            anfitriones[contaAnfitri] = Anfitrion(puntuacion, antiguedad, documento);
+            bandera = false;
+            contaAnfitri++;
+        }
+        for(int i = 0;i < contaAnfitri ;i++){
+            if(documento == anfitriones[i].getDocumento()){
+                bandera = false;
+                contaAnfitri++;
+                break;
+            }
+        }
 
-        ++c;
+        if(bandera){
+            anfitriones[contaAnfitri] = Anfitrion(puntuacion, antiguedad, documento);
+            contaAnfitri++;
+        }
+        alojamientos[contaAlojam] = Alojamiento(nombre,codigo, &(anfitriones[c].getDocumento()),
+                                                stoi(tipo), ubicacion, direccion, stoi(precio), amenidades, nullptr);
+
+        ptr = alojamientos[contaAlojam];
+
+        contaAlojam++;
+        bandera = true;
     }
+
 
     archivo.close();
 }
