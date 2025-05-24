@@ -1,4 +1,6 @@
 #include "fecha.h"
+#include <sstream>
+#include <iostream>
 using namespace std;
 
 
@@ -12,6 +14,21 @@ Fecha::Fecha(unsigned short int _dia,unsigned short int _mes,unsigned short int 
     dia = _dia;
     mes = _mes;
     anio = _anio;
+}
+
+Fecha::Fecha(string _fecha){
+    string aux;
+    stringstream iss(_fecha);
+
+    getline(iss,aux,'/');
+    dia = stoi(aux);
+
+    getline(iss,aux,'/');
+    mes = stoi(aux);
+
+    getline(iss,aux,'/');
+    anio = stoi(aux);
+
 }
 
 bool Fecha::bisiesto(){
@@ -64,6 +81,13 @@ string Fecha::nombreDia(){
     return dias[h];
 }
 
+void Fecha::mostrar() const {
+    cout << (dia < 10 ? "0" : "") << dia << "/"
+         << (mes < 10 ? "0" : "") << mes << "/"
+         << anio;
+}
+
+//Getters
 unsigned short int Fecha::getDia(){
     return dia;
 }
@@ -75,6 +99,7 @@ unsigned short int Fecha::getMes(){
 unsigned short int Fecha::getAnio(){
     return anio;
 }
+//Setters
 void Fecha::setDia(unsigned short int _dia){
     dia = _dia;
 }

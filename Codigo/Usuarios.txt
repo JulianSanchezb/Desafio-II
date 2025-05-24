@@ -1,1 +1,0 @@
-H o A, documento, puntuacion,antigüedad,reserva(Activa)

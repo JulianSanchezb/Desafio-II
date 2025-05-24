@@ -15,38 +15,39 @@ private:
     string direccion;
     unsigned int precio;
     string amenidades;
-    Reserva *reservas[20];
+    Reserva *reservas[365];
     unsigned short int count = 0;
 public:
-    Alojamiento();
-    Alojamiento(string _nombre, string _codigo, string *_documento, bool _tipo, string _ubicacion,
-                string _direccion, unsigned int _precio, string _amenidades, Reserva *_reservas);
+    Alojamiento();//Constructor por defecto
+    Alojamiento(const string& _nombre, const string& _codigo, string* _documento,
+                bool _tipo, const string& _ubicacion, const string& _direccion,
+                unsigned int _precio, const string& _amenidades);
     //
     void disponibilidad();
     //
-
+    void imprimir() const;
 
     //Getters
     string getNombre();
     string getCodigo();
-    string &getDocumento();
-    const string &getDocumento();
+    string* getDocumento() const;
     bool getTipo();
     string getUbicacion();
     string getDireccion();
     unsigned int getPrecio();
     string getAmenidades();
-    //Reserva getReservas();  Falta getter de reservas
+    Reserva *getReserva(int index);
+
     //Setters
     void setNombre(const string& _nombre);
     void setCodigo(const string& _codigo);
-    void setDocumento(const string& _documento);
+    void setDocumento(string *_documento);
     void setTipo(const bool &_tipo);
     void setUbicacion(const string &_ubicacion);
     void setDireccion(const string& _direccion);
     void setPrecio(unsigned int _precio);
     void setAmenidades(const string& _amenidades);
-    //Reserva setReservas();  Falta setter de reservas
+    void setReserva(Reserva* _reserva);
 };
 
 #endif // ALOJAMIENTO_H

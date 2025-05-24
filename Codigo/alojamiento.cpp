@@ -1,70 +1,103 @@
 #include "alojamiento.h"
-/*
-Alojamiento::Alojamiento(){
+#include <iostream>
+
+//Constructor por defecto
+Alojamiento::Alojamiento() {
     nombre = "";
-    codigo = NULL;
-    documento = NULL;
+    codigo = "";
+    documento = nullptr;
     tipo = false;
     ubicacion = "";
     direccion = "";
     precio = 0;
     amenidades = "";
-    reservas[] = NULL;
-    unsigned short int count = 0;
-}*/
+    count = 0;
+    for (int i = 0; i < 20; i++) {
+        reservas[i] = nullptr;
+    }
+}
 
-Alojamiento::Alojamiento(string _nombre, string *_codigo, string *_documento, bool _tipo,string _ubicacion,
-                         string _direccion, unsigned int _precio, string _amenidades, Reserva *_reservas) {
+// Constructor
+Alojamiento::Alojamiento(const string& _nombre, const string& _codigo, string* _documento,
+                         bool _tipo, const string& _ubicacion, const string& _direccion,
+                         unsigned int _precio, const string& _amenidades) {
     nombre = _nombre;
     codigo = _codigo;
-    documento = _documento;
+    documento = _documento;  // Guardamos el puntero, no el valor
     tipo = _tipo;
     ubicacion = _ubicacion;
     direccion = _direccion;
     precio = _precio;
     amenidades = _amenidades;
-    reservas[count] = _reservas;
-    count++;
+
+    count = 0;
+    for (int i = 0; i < 20; i++) {
+        reservas[i] = nullptr;
+    }
+
 }
 
-string Alojamiento::getNombre(){
+void Alojamiento::imprimir() const {
+    cout << "=== Alojamiento ===" << endl;
+    cout << "Nombre: " << nombre << endl;
+    cout << "Codigo: " << codigo << endl;
+    cout << "Documento del propietario: " << (documento ? *documento : "N/A") << endl;
+    cout << "Tipo: " << (tipo ? "Casa" : "Departamento") << endl;
+    cout << "Ubicacion: " << ubicacion << endl;
+    cout << "Direccion: " << direccion << endl;
+    cout << "Precio: " << precio << endl;
+    cout << "Amenidades: " << amenidades << endl;
+    cout << "Cantidad de reservas: " << count << endl;
+    for(int i = 0;i < count;i++){
+        if (reservas[i] != nullptr) {
+            cout << "Reserva #" << i + 1 << ":" << endl;
+            reservas[i]->mostrar();  // Asegúrate de tener este método en Reserva
+            cout << "-----------------------------" << endl;
+        }
+    }
+}
+
+
+string Alojamiento::getNombre()  {
     return nombre;
 }
 
-string Alojamiento::getCodigo(){
+string Alojamiento::getCodigo()  {
     return codigo;
 }
 
-string& Alojamiento::getDocumento() {
+string* Alojamiento::getDocumento() const {
     return documento;
 }
 
-const string& Alojamiento::getDocumento() const {
-    return documento;
-}
-
-
-bool Alojamiento::getTipo(){
+bool Alojamiento::getTipo()  {
     return tipo;
 }
 
-string Alojamiento::getUbicacion(){
+string Alojamiento::getUbicacion()  {
     return ubicacion;
 }
 
-string Alojamiento::getDireccion(){
+string Alojamiento::getDireccion()  {
     return direccion;
 }
 
-unsigned int Alojamiento::getPrecio(){
+unsigned int Alojamiento::getPrecio()  {
     return precio;
 }
 
-string Alojamiento::getAmenidades(){
+string Alojamiento::getAmenidades()  {
     return amenidades;
 }
 
-//Reserva getReservas();  Falta getter de reservas
+
+Reserva* Alojamiento::getReserva(int index) {
+    if (index >= 0 && index < 20 && index < count) {
+        return reservas[index];
+    }
+    return nullptr;
+}
+
 //Setters
 void Alojamiento::setNombre(const string& _nombre){
     nombre = _nombre;
@@ -74,14 +107,13 @@ void Alojamiento::setCodigo(const string& _codigo){
     codigo = _codigo;
 }
 
-void Alojamiento::setDocumento(const string& _documento){
+void Alojamiento::setDocumento(string *_documento){
     documento = _documento;
 }
 
 void Alojamiento::setTipo(const bool& _tipo){
     tipo = _tipo;
 }
-
 
 void Alojamiento::setUbicacion(const string& _ubicacion){
     ubicacion = _ubicacion;
@@ -99,3 +131,11 @@ void Alojamiento::setAmenidades(const string& _amenidades){
     amenidades = _amenidades;
 }
 
+void Alojamiento::setReserva(Reserva *_reserva) {
+    if(count < 365){
+        reservas[count] = _reserva;
+        count++;
+    }else{
+        cout<<"\nEXCEDIO LA CANTIDAD DE RESERVAS PERMITIDA\n";
+    }
+}

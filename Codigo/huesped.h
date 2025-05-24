@@ -4,28 +4,32 @@
 #include <string>
 using namespace std;
 
+class Reserva;
 
 class Huesped{
 private:
     string puntuacion;
     string antiguedad;
     string documento;
-    Reserva reservas[20];
+    unsigned int count = 0;
+    Reserva *reservas[365];
 public:
     Huesped(); // Constructor por defecto
-
+    Huesped(string _puntuacion, string _antiguedad, string _documento);
     void menu();
+    void imprimir() const;
 
     // Getters
     string getPuntuacion();
     string getAntiguedad();
-    string getDocumento();
-    //Falta getter de reservas
+    string* getDocumento();
+    const string* getDocumento() const;
+    Reserva *getReserva(int index);
     // Setters
     void setPuntuacion(const string& _puntuacion);
     void setAntiguedad(const string& _antiguedad);
     void setDocumento(const string& _documento);
-    //Falta setter de reservas
+    void setReserva(Reserva* _reserva);
 };
 
 #endif // HUESPED_H

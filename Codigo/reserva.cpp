@@ -1,17 +1,64 @@
 #include "reserva.h"
+#include "huesped.h"
+#include <iostream>
 
-Reserva::Reserva() {}
+Reserva::Reserva()
+    : documento(nullptr),
+    date(),        // Llama al constructor por defecto de Fecha
+    noches(0),
+    codigo(""),
+    codigoA(""),
+    metodoPago(false),
+    pago(),        // Llama al constructor por defecto de Fecha
+    monto(0),
+    comentario("") {
+}
+
+Reserva::Reserva(string* _documento,string _fechaI,unsigned short int _noches,string _codigo, string _codigoA,bool _metodoPago,string _fechaP,unsigned int _monto)
+    : documento(_documento),
+    date(_fechaI),        // Llama al constructor con string de Fecha
+    noches(_noches),
+    codigo(_codigo),
+    codigoA(_codigoA),
+    metodoPago(_metodoPago),
+    pago(_fechaP),        // Llama al constructor con string de Fecha
+    monto(_monto),
+    comentario("") {
+}
+
+void Reserva::mostrar() const {
+    cout << "Documento: " << (documento ? *documento : "N/A") << endl;
+    cout << "Fecha de reserva: ";
+    date.mostrar();  // Supongo que Fecha tiene método mostrar()
+    cout << endl;
+
+    cout << "Noches: " << noches << endl;
+    cout << "Codigo reserva: " << codigo << endl;
+    cout << "Codigo alojamiento: " << codigoA << endl;
+    cout << "Metodo de pago: " << (metodoPago ? "Tarjeta" : "Efectivo") << endl;
+
+    cout << "Fecha de pago: ";
+    pago.mostrar();
+    cout << endl;
+
+    cout << "Monto: $" << monto << endl;
+    cout << "Comentario: " << comentario << endl;
+}
 
 // Getters
-Huesped Reserva::getPersona() { //Hay que verificarlo
-    return persona;
+string* Reserva::getDocumento() const {
+    return documento;
+}
+
+string Reserva::getDocumentoValor() const {
+    return *documento;
 }
 
 Fecha Reserva::getDate() {  //Hay que verificarlo
     return date;
 }
 
-int Reserva::getNoches() {
+unsigned short int Reserva::getNoches() {
     return noches;
 }
 
@@ -19,7 +66,7 @@ string Reserva::getCodigo() {
     return codigo;
 }
 
-string* Reserva::getCodigoA() {
+string Reserva::getCodigoA() {
     return codigoA;
 }
 
@@ -35,16 +82,16 @@ unsigned int Reserva::getMonto() {
     return monto;
 }
 
-const char* Reserva::getComentario() {
+string Reserva::getComentario() {
     return comentario;
 }
 
 // Setters
-void Reserva::setPersona(const Huesped& _persona) {
-    persona = _persona;
+void Reserva::setDocumento(string *_documento){
+    documento = _documento;
 }
 
-void Reserva::setDate(const Fecha& _date) {
+void Reserva::setDate(const string &_date) {
     date = _date;
 }
 
@@ -56,7 +103,7 @@ void Reserva::setCodigo(const string& _codigo) {
     codigo = _codigo;
 }
 
-void Reserva::setCodigoA(string* _codigoA) {
+void Reserva::setCodigoA(string _codigoA) {
     codigoA = _codigoA;
 }
 
