@@ -1,0 +1,3 @@
+100001 Rosa 1022002752 4.3 1.5 1 Antioquia-Rionegro Carrera-2-#3 80000 Bano,Cama
+100002 Casaluna 1022002752 4.3 1.5 0 Antioquia-Medellin Cra-1#1-sur-120 150000 Ascensor,2-banos,cocina,2-habitaciones
+100003 Amanecer 1044530108 4.8 2.0 1 Antioquia-Doradal Calle-3#15-este 150000 3-Banos,5-habitaciones,cocina,psicina,jacuzzi
