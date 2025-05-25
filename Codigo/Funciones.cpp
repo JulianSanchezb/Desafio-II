@@ -9,6 +9,54 @@
 
 using namespace std;
 
+void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,unsigned int &contan,unsigned int &conthu){
+    unsigned short int decision;
+    bool bandera = false;
+    string line,documento;
+    do{
+        cout<<"Inicio de sesion"<<endl;
+        cout<<"1.Anfitrion"<<endl;
+        cout<<"2.Huesped"<<endl;
+        cout<<"3.salir"<<endl;
+        cin>>decision;
+    }while((decision>3) && (decision<0));
+
+
+    switch (decision) {
+    case 1:
+        cout<<"ingrese el documento del anfitrion: "<<endl;
+        cin >> documento;
+        for (unsigned int i =0 ;i < contan;i++ ){
+            if (*(anfitriones[i].getDocumento()) == documento){
+               anfitriones[i].menu();
+                bandera = true;
+                break;
+            }
+        }
+        if (!bandera){
+            cout<<"Lo sentimos no te encuentras registrado como Anfitrion"<<endl;
+        }
+    break;
+    case 2:
+        cout<<"ingrese el documento del huesped: "<<endl;
+        cin >> documento;
+        for (unsigned int i =0 ;i < conthu;i++ ){
+            if (*(huespedes[i].getDocumento()) == documento){
+                huespedes[i].menu();
+                bandera = true;
+                break;
+            }
+        }
+        if (!bandera){
+            cout<<"Lo sentimos no te encuentras registrado como huesped"<<endl;
+        }
+    break;
+    case 3:cout << "Saliendo del menu..." << endl;break;
+    default:
+        cout << "Opcion no valida. Intente de nuevo." << endl;
+    }
+}
+
 void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
     ifstream archivo(nombre); // abre y posiciona al final
     string linea,codigo,documento;
@@ -147,6 +195,15 @@ void asignarReservasA(Alojamiento* alojamientos,Reserva* reservas,unsigned int &
     }
 }
 
+void asignarReservah(Huesped* huespedes,Reserva* reservas,unsigned int &tamano1, unsigned int &tamano2){
+    for(int i = 0;i < tamano1;i++){
+        for(int j = 0;j < tamano2;j++ ){
+            if(huespedes[i].getDocumento() == reservas[j].getDocumento()){
+                huespedes[i].setReserva(&reservas[j]);
+            }
+        }
+    }
+}
 
 
 

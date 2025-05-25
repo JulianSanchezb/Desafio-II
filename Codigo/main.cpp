@@ -17,33 +17,18 @@ int main() {
     Anfitrion* anfitriones = new Anfitrion[anfitri];
 
     crearAnfitriones(alojamientos, anfitriones);
-
     cantidadLineas("Reservas.txt", reser, huesp);
+
     Huesped *huespedes =new Huesped[huesp];
     Reserva *reservas = new Reserva[reser];
 
     crearHuespedes(reservas, huespedes);
-
     asignarReservasA(alojamientos,reservas,alojam,reser);
 
-    unsigned short int entrada;
-    cout<<"BIENVENIDO A UDEA STAY  \nEs usted Anfitrion o Huesped \n1. Anfitrion \n2. Huesped"<<endl;
-    cin >> entrada;
-    while(entrada > 2 && entrada < 0){
-        cout<<"El numero ingresado no tiene accion: \nEs usted Anfitrion o Huesped \n1. Anfitrion \n2. Huesped"<<endl;
-        cin >> entrada;
-    }
-    if(entrada == 1){
+    ingresar_sistema(huespedes,anfitriones,anfitri,huesp);
 
-    }else if(entrada == 0){
-        for(int i = 0; i < anfitri;i++){
-            anfitriones[i].imprimir();
-        }
-        cout<<"\n\n---------------------Alojamientos---------------------";
-        for(int i = 0; i < huesp;i++){
-            alojamientos[i].imprimir();
-        }
-    }
+    delete[] huespedes;
+    delete[] reservas;
     delete[] alojamientos;
     delete[] anfitriones;
 

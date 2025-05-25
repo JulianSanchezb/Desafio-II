@@ -23,8 +23,10 @@ public:
                 bool _tipo, const string& _ubicacion, const string& _direccion,
                 unsigned int _precio, const string& _amenidades);
     //
-    void disponibilidad();
-    //
+    bool disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio);
+
+    //metodo para filtrar por puntuacion y por coste maximo
+    //void
     void imprimir() const;
 
     //Getters
@@ -37,6 +39,7 @@ public:
     unsigned int getPrecio();
     string getAmenidades();
     Reserva *getReserva(int index);
+    unsigned short int getCount() const;
 
     //Setters
     void setNombre(const string& _nombre);

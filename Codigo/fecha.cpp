@@ -81,10 +81,59 @@ string Fecha::nombreDia(){
     return dias[h];
 }
 
+string Fecha::nombremes(){
+    string dias[12] = {
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+    };
+
+    return dias[(mes-1)];
+}
+
 void Fecha::mostrar() const {
     cout << (dia < 10 ? "0" : "") << dia << "/"
          << (mes < 10 ? "0" : "") << mes << "/"
          << anio;
+}
+
+string Fecha::sumar_noches(unsigned short int noches){
+    unsigned short int meses[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    unsigned short int diasres, d = dia, m = mes, a = anio;;
+    while (noches > 0) {
+        // Ajustar si es bsisiesto
+        if ((a % 4 == 0 && a % 100 != 0) || (a % 400 == 0)) {
+            meses[1] = 29;
+        } else {
+            meses[1] = 28;
+        }
+
+        diasres= meses[a - 1] - d;
+
+        if (noches <= diasres) {
+            d += noches;
+            noches = 0;
+        } else {
+            noches -= (diasres + 1);
+            d = 1;
+            m++;
+            if (m > 12) {
+                m = 1;
+                a++;
+            }
+        }
+    }
+    return to_string(d) + "/" + to_string(m) + "/" + to_string(a);
+}
+
+bool Fecha::operator<(const Fecha& otra) const {
+    if (anio != otra.anio) return anio < otra.anio;
+    if (mes != otra.mes) return mes < otra.mes;
+    return dia < otra.dia;
+}
+
+bool Fecha::operator>(const Fecha& otra) const {
+    if (anio != otra.anio) return anio > otra.anio;
+    if (mes != otra.mes) return mes > otra.mes;
+    return dia > otra.dia;
 }
 
 //Getters

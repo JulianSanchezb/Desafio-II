@@ -1,6 +1,8 @@
 #include "reserva.h"
 #include "huesped.h"
 #include <iostream>
+#include <string>
+using namespace std;
 
 Reserva::Reserva()
     : documento(nullptr),
@@ -26,6 +28,17 @@ Reserva::Reserva(string* _documento,string _fechaI,unsigned short int _noches,st
     comentario("") {
 }
 
+
+bool Reserva::verificarFecha(const string & fechaI,unsigned short int _noches){
+    Fecha nuevaFecha(fechaI);
+    Fecha finReserva = date.sumar_noches(noches);         // fecha final de la reserva actual
+    Fecha finNueva   = nuevaFecha.sumar_noches(_noches);
+    if (!(finNueva < date || nuevaFecha > finReserva)) { // si no termina antes o despues esta en medio
+        return false;
+    }
+    return true;
+}
+
 void Reserva::mostrar() const {
     cout << "Documento: " << (documento ? *documento : "N/A") << endl;
     cout << "Fecha de reserva: ";
@@ -43,6 +56,20 @@ void Reserva::mostrar() const {
 
     cout << "Monto: $" << monto << endl;
     cout << "Comentario: " << comentario << endl;
+}
+//verificar comprobante
+void Reserva::comprobante(){
+    cout<<"--------COMPROBANTE RESERVA--------"<<endl;
+    cout << "Documento: " << (documento ? *documento : "N/A") << endl; //falta poner el nombre
+    cout<<"Fecha de inicio: "<<date.nombreDia()<<","<<date.getDia()<<" de"<<date.nombremes()<<" del"<<date.getAnio()<<endl;
+    cout<<"Fecha final: "<<endl; //agregar
+    cout << "Codigo reserva: " << codigo << endl;
+    cout << "Codigo alojamiento: " << codigoA << endl;
+    cout << "Metodo de pago: " << (metodoPago ? "Tarjeta" : "Efectivo") << endl;
+    cout << "Fecha de pago: ";
+    pago.mostrar();
+    cout << endl;
+    cout << "Monto: $" << monto << endl;
 }
 
 // Getters

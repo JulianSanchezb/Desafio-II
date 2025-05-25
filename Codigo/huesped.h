@@ -17,6 +17,8 @@ public:
     Huesped(); // Constructor por defecto
     Huesped(string _puntuacion, string _antiguedad, string _documento);
     void menu();
+    //opcion de metodo de verificar si no tiene reserva en la fecha indicada
+    //bool verificar_valides();
     void imprimir() const;
 
     // Getters

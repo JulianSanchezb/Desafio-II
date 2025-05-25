@@ -23,6 +23,41 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
     }
 }
 
+
+void Anfitrion::consultaReserva(){
+    for (unsigned int i = 0; i < contaAlojamientos; ++i) {
+        if (alojamientos[i] != nullptr) {
+            for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
+                Reserva* reserva = alojamientos[i]->getReserva(j);
+                if (reserva != nullptr) {
+                    reserva->mostrar();
+                    cout << endl;
+                }
+            }
+        }
+    }
+}
+
+void Anfitrion::menu(){
+    unsigned short int decision;
+    do{
+        cout<<"MENU"<<endl;
+        cout<<"1.Consultar reservas"<<endl;
+        cout<<"2.Cancelar reserva"<<endl;
+        cout<<"3.salir"<<endl;
+        cin>>decision;
+    }while((decision>3) && (decision<0));
+    switch (decision) {
+    case 1:consultaReserva();break;
+    case 2:break;
+    case 3:cout << "Saliendo del menu..." << endl;break;
+    default:
+        cout << "Opcion no valida. Intente de nuevo." << endl;
+    }
+
+
+}
+
 void Anfitrion::imprimir() const {
     cout << "=== Anfitrion ===" << endl;
     cout << "Documento: " << documento << endl;

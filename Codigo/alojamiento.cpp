@@ -29,12 +29,26 @@ Alojamiento::Alojamiento(const string& _nombre, const string& _codigo, string* _
     direccion = _direccion;
     precio = _precio;
     amenidades = _amenidades;
-
     count = 0;
     for (int i = 0; i < 20; i++) {
         reservas[i] = nullptr;
     }
 
+}
+
+
+bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio){
+    if(ubicacion != municipio){
+        return false;
+    }
+    for(unsigned short int i=0; i<count ;i++){
+        if (reservas[i] != nullptr) {
+            if(!(reservas[i]->verificarFecha(fechaInicio,noches))){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void Alojamiento::imprimir() const {
@@ -47,14 +61,6 @@ void Alojamiento::imprimir() const {
     cout << "Direccion: " << direccion << endl;
     cout << "Precio: " << precio << endl;
     cout << "Amenidades: " << amenidades << endl;
-    cout << "Cantidad de reservas: " << count << endl;
-    for(int i = 0;i < count;i++){
-        if (reservas[i] != nullptr) {
-            cout << "Reserva #" << i + 1 << ":" << endl;
-            reservas[i]->mostrar();  // Asegúrate de tener este método en Reserva
-            cout << "-----------------------------" << endl;
-        }
-    }
 }
 
 
@@ -96,6 +102,10 @@ Reserva* Alojamiento::getReserva(int index) {
         return reservas[index];
     }
     return nullptr;
+}
+
+unsigned short int Alojamiento::getCount() const {
+    return count;
 }
 
 //Setters

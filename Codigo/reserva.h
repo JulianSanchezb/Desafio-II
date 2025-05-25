@@ -23,10 +23,10 @@ public:
     Reserva(string* _documento,string _fechaI,unsigned short int _noches,string _codigo,
             string _codigoA,bool _metodoPago,string _fechaP,unsigned int _monto);       //Constructor
 
-    bool verificarFecha();
-    int valor_reserva();
+    bool verificarFecha(const string &fechaI, unsigned short int noches);
+    int valor_reserva();//verificar me parece innecesario
+    void mostrar() const; //pedirla
     void comprobante();
-    void mostrar() const;
 
     // Getters
     string* getDocumento() const;   //Hay que verificarlos

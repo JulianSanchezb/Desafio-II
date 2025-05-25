@@ -20,6 +20,27 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
     }
 }
 
+
+
+void Huesped::menu(){
+
+    unsigned short int decision;
+    do{
+        cout<<"MENU"<<endl;
+        cout<<"1.Reservar"<<endl;
+        cout<<"2.Cancelar reserva"<<endl;
+        cout<<"3.salir"<<endl;
+        cin>>decision;
+    }while((decision>3) && (decision<0));
+    switch (decision) {
+    case 1:;break;
+    case 2:break;
+    case 3:cout << "Saliendo del menu..." << endl;break;
+    default:
+        cout << "Opcion no valida. Intente de nuevo." << endl;
+    }
+}
+
 void Huesped::imprimir() const {
     cout << "Documento: " << documento << endl;
     cout << "Antigüedad: " << antiguedad << endl;
