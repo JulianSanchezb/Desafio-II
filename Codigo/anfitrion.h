@@ -1,6 +1,7 @@
 #ifndef ANFITRION_H
 #define ANFITRION_H
 #include "alojamiento.h"
+#include <Funciones.h>
 #include <string>
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
     void menu();
     void imprimir() const;
     //Getters
-    string getPuntuacion();
+    string* getPuntuacion();
     string getAntiguedad();
     string* getDocumento();      // Devuelve puntero directo al string documento
     Alojamiento *getAlojamiento(int index);

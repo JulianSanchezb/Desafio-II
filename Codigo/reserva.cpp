@@ -58,14 +58,15 @@ void Reserva::mostrar() const {
     cout << "Comentario: " << comentario << endl;
 }
 //verificar comprobante
-void Reserva::comprobante(){
+void Reserva::comprobante(string fechafin){
+    Fecha fin(fechafin);
     cout<<"--------COMPROBANTE RESERVA--------"<<endl;
     cout << "Documento: " << (documento ? *documento : "N/A") << endl; //falta poner el nombre
-    cout<<"Fecha de inicio: "<<date.nombreDia()<<","<<date.getDia()<<" de"<<date.nombremes()<<" del"<<date.getAnio()<<endl;
-    cout<<"Fecha final: "<<endl; //agregar
+    cout<<"Fecha de inicio: "<<date.nombreDia()<<","<<date.getDia()<<" de "<<date.nombremes()<<" del "<<date.getAnio()<<endl;
+    cout<<"Fecha final: "<<fin.nombreDia()<<","<<fin.getDia()<<" de "<<fin.nombremes()<<" del "<<fin.getAnio()<<endl; //agregar
     cout << "Codigo reserva: " << codigo << endl;
     cout << "Codigo alojamiento: " << codigoA << endl;
-    cout << "Metodo de pago: " << (metodoPago ? "Tarjeta" : "Efectivo") << endl;
+    cout << "Metodo de pago: " << (metodoPago ? "TCREDITO" : "PSE") << endl;
     cout << "Fecha de pago: ";
     pago.mostrar();
     cout << endl;

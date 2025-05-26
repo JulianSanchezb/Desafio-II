@@ -13,6 +13,7 @@ SOURCES += \
         reserva.cpp
 
 HEADERS += \
+    Funciones.h \
     alojamiento.h \
     anfitrion.h \
     fecha.h \

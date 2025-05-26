@@ -2,6 +2,7 @@
 #define ALOJAMIENTO_H
 #include "anfitrion.h"
 #include "reserva.h"
+#include "Funciones.h"
 #include <string>
 using namespace std;
 
@@ -10,6 +11,7 @@ private:
     string nombre;
     string codigo;
     string *documento;
+    string *puntuacion;
     bool tipo;
     string ubicacion;
     string direccion;
@@ -19,14 +21,13 @@ private:
     unsigned short int count = 0;
 public:
     Alojamiento();//Constructor por defecto
-    Alojamiento(const string& _nombre, const string& _codigo, string* _documento,
+    Alojamiento(const string& _nombre, const string& _codigo, string* _documento, string *_puntuacion,
                 bool _tipo, const string& _ubicacion, const string& _direccion,
                 unsigned int _precio, const string& _amenidades);
     //
     bool disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio);
 
-    //metodo para filtrar por puntuacion y por coste maximo
-    //void
+    bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
     void imprimir() const;
 
     //Getters

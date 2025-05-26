@@ -1,6 +1,7 @@
 #ifndef HUESPED_H
 #define HUESPED_H
 #include "reserva.h"
+#include "Funciones.h"
 #include <string>
 using namespace std;
 
@@ -16,9 +17,9 @@ private:
 public:
     Huesped(); // Constructor por defecto
     Huesped(string _puntuacion, string _antiguedad, string _documento);
-    void menu();
+    void menu(Alojamiento *alojamientos,Reserva **reservas, unsigned int &tamano1, unsigned int &tamano2);
     //opcion de metodo de verificar si no tiene reserva en la fecha indicada
-    //bool verificar_valides();
+    bool verificar_valides(string fechaI,unsigned short int noche);
     void imprimir() const;
 
     // Getters

@@ -106,7 +106,7 @@ string Fecha::sumar_noches(unsigned short int noches){
             meses[1] = 28;
         }
 
-        diasres= meses[a - 1] - d;
+        diasres= meses[m - 1] - d;
 
         if (noches <= diasres) {
             d += noches;
