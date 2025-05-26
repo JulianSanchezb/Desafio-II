@@ -73,8 +73,8 @@ void Anfitrion::imprimir() const {
 }
 
 // Getters
-string Anfitrion::getPuntuacion() {
-    return puntuacion;
+string *Anfitrion::getPuntuacion() {
+    return &puntuacion;
 }
 
 string Anfitrion::getAntiguedad() {

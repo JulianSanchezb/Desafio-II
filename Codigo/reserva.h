@@ -2,6 +2,7 @@
 #define RESERVA_H
 #include "fecha.h"
 #include "huesped.h"
+#include "Funciones.h"
 #include <string>
 using namespace std;
 
@@ -26,7 +27,7 @@ public:
     bool verificarFecha(const string &fechaI, unsigned short int noches);
     int valor_reserva();//verificar me parece innecesario
     void mostrar() const; //pedirla
-    void comprobante();
+    void comprobante(string fechafin);
 
     // Getters
     string* getDocumento() const;   //Hay que verificarlos
