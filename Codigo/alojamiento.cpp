@@ -63,6 +63,19 @@ void Alojamiento::imprimir() const {
     cout << "Amenidades: " << amenidades << endl;
 }
 
+void Alojamiento::actualizarReservas(){
+    unsigned short int c = 0;
+    for(unsigned short int i = count;i < 365; i++){
+        if(reservas[i] == nullptr){
+            c++;
+        }else{
+            reservas[i] = nullptr;
+        }
+        if(c == 10){
+            break;
+        }
+    }
+}
 
 string Alojamiento::getNombre()  {
     return nombre;
@@ -148,4 +161,8 @@ void Alojamiento::setReserva(Reserva *_reserva) {
     }else{
         cout<<"\nEXCEDIO LA CANTIDAD DE RESERVAS PERMITIDA\n";
     }
+}
+
+void Alojamiento::setCount(unsigned short int _count){
+    count = _count;
 }

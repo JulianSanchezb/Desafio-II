@@ -1,10 +1,12 @@
 #ifndef ANFITRION_H
 #define ANFITRION_H
 #include "alojamiento.h"
+#include "Funciones.h"
 #include <string>
 using namespace std;
 
 class Alojamiento;
+class Reserva;
 
 class Anfitrion{
 private:
@@ -17,7 +19,7 @@ public:
     Anfitrion();    //Constructor por defecto
     Anfitrion(string _puntuacion, string _antiguedad, string _documento);
     void consultaReserva();
-    void menu();
+    void menu(Reserva **reservas,Huesped *huespedes,Alojamiento *alojamientos, unsigned int tamanoR,unsigned int tamanoH,unsigned int tamanoA);
     void imprimir() const;
     //Getters
     string getPuntuacion();

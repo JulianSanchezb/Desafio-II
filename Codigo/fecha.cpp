@@ -52,7 +52,7 @@ bool Fecha::fechaValida(){
         meses[1] = 29;
     }
 
-    if(dia > meses[mes - 1] && anio < 2000){
+    if(dia > meses[mes - 1] || anio < 2000){
         return false;
     }
 
@@ -95,7 +95,7 @@ void Fecha::mostrar() const {
          << anio;
 }
 
-string Fecha::sumar_noches(unsigned short int noches){
+Fecha Fecha::sumar_noches(unsigned short int noches){
     unsigned short int meses[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     unsigned short int diasres, d = dia, m = mes, a = anio;;
     while (noches > 0) {
@@ -121,7 +121,8 @@ string Fecha::sumar_noches(unsigned short int noches){
             }
         }
     }
-    return to_string(d) + "/" + to_string(m) + "/" + to_string(a);
+    Fecha f(to_string(d) + to_string(m) + to_string(a));
+    return f;
 }
 
 bool Fecha::operator<(const Fecha& otra) const {

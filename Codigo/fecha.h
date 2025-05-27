@@ -15,7 +15,7 @@ public:
     bool fechaValida();
     string nombreDia();    //Con la formula de Zeller(con division entera)
     bool bisiesto();
-    string sumar_noches(unsigned short int noches);
+    Fecha sumar_noches(unsigned short int noches);
     string nombremes();
     void mostrar() const;
     //Getters

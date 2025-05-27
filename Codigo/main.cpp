@@ -20,12 +20,12 @@ int main() {
     cantidadLineas("Reservas.txt", reser, huesp);
 
     Huesped *huespedes =new Huesped[huesp];
-    Reserva *reservas = new Reserva[reser];
+    Reserva **reservas = new Reserva*[reser];
 
     crearHuespedes(reservas, huespedes);
     asignarReservasA(alojamientos,reservas,alojam,reser);
 
-    ingresar_sistema(huespedes,anfitriones,anfitri,huesp);
+    ingresar_sistema(huespedes,anfitriones,reservas,alojamientos,anfitri,huesp,reser,alojam);
 
     delete[] huespedes;
     delete[] reservas;
