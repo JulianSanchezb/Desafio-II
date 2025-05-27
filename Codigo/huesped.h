@@ -17,11 +17,16 @@ private:
 public:
     Huesped(); // Constructor por defecto
     Huesped(string _puntuacion, string _antiguedad, string _documento);
-    void menu(Alojamiento *alojamientos,Reserva **reservas, unsigned int &tamano1, unsigned int &tamano2);
+    void menu(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alojamientos,Reserva** reservas,
+              unsigned int &tamano1, unsigned int &tamano2,unsigned int &contR,unsigned int &contA);
     //opcion de metodo de verificar si no tiene reserva en la fecha indicada
     bool verificar_valides(string fechaI,unsigned short int noche);
     void imprimir() const;
+
+    void cancelReserva(unsigned int index);
+
     void actualizarReservas();
+
 
     // Getters
     string getPuntuacion();
@@ -29,7 +34,9 @@ public:
     string* getDocumento();
     const string* getDocumento() const;
     Reserva *getReserva(int index);
+
     unsigned short int getCount();
+
     // Setters
     void setPuntuacion(const string& _puntuacion);
     void setAntiguedad(const string& _antiguedad);

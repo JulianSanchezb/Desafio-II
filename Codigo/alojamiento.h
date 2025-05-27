@@ -29,7 +29,11 @@ public:
 
     bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
     void imprimir() const;
+
+    void cancelareserva(const string& codigo);
+
     void actualizarReservas();
+
     //Getters
     string getNombre();
     string getCodigo();

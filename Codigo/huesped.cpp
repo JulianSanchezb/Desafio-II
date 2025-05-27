@@ -1,4 +1,5 @@
 #include "huesped.h"
+#include "Funciones.h"
 #include <iostream>
 
 
@@ -24,9 +25,11 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
 
 
 
-void Huesped::menu(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
+void Huesped::menu(Huesped *huespedes, Anfitrion *anfitriones, Alojamiento* alojamientos, Reserva** reservas,
+                   unsigned int &tamano1, unsigned int &tamano2, unsigned int &contR, unsigned int &contA){
 
     unsigned short int decision;
+    string codigo;
     do{
         cout<<"\n-----Bienvenido, Huesped-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Reservar"<<endl;
@@ -35,7 +38,11 @@ void Huesped::menu(Alojamiento* alojamientos,Reserva** reservas,unsigned int &ta
         cin>>decision;
         switch (decision) {
         case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
-        case 2:break;
+        case 2:
+            cout<<"Ingrese el codigo de la reserva que sale en su comprobante: "<<endl;
+            cin>>codigo;
+            cancelareserva(huespedes,anfitriones,reservas,alojamientos,decision,tamano1,tamano2,contR,contA,documento,codigo);
+            break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;break;
         default:
             cout << "Opcion no valida. Intente de nuevo." << endl;
@@ -60,6 +67,11 @@ bool Huesped::verificar_valides(string fechaI,unsigned short int noches){
     return true;
 }
 
+void Huesped:: cancelReserva(unsigned int index) {
+    if (index < count && reservas[index] != nullptr) {
+        reservas[index] = nullptr;
+    }
+}
 
 void Huesped::imprimir() const {
     cout << "Documento: " << documento << endl;
@@ -114,9 +126,10 @@ Reserva* Huesped::getReserva(int index) {
     return nullptr;
 }
 
-unsigned short Huesped::getCount(){
+unsigned short int Huesped::getCount(){
     return count;
 }
+
 
 // Setters
 void Huesped::setPuntuacion(const string& _puntuacion) {

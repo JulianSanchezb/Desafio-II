@@ -89,10 +89,12 @@ string Fecha::nombremes(){
     return dias[(mes-1)];
 }
 
-void Fecha::mostrar() const {
-    cout << (dia < 10 ? "0" : "") << dia << "/"
-         << (mes < 10 ? "0" : "") << mes << "/"
-         << anio;
+string Fecha::mostrar() const{
+    stringstream ss;
+    ss << (dia < 10 ? "0" : "") << dia << "/"
+       << (mes < 10 ? "0" : "") << mes << "/"
+       << anio;
+    return ss.str();
 }
 
 string Fecha::sumar_noches(unsigned short int noches){

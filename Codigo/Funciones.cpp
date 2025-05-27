@@ -75,8 +75,69 @@ string codigoR(string codigo){
     return to_string(codigopr);
 }
 
+void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned int contR, unsigned int conthu){
+    string puntuacion, antiguedad,doc;
+    ofstream archivo("Reservas.txt");
+    if(!archivo){
+        cout<<"No se pudo abrir el archivo"<<endl;
+        return;
+    }
+    for (unsigned int i = 0; i < contR; i++) {
+        if (reservas[i] != nullptr) {
+            doc = *(reservas[i]->getDocumento());
+
+            puntuacion = "N/A";
+            antiguedad = "N/A";
+            for (unsigned int j = 0; j < conthu; j++) {
+                if (*(huespedes[j].getDocumento()) == doc) {
+                    puntuacion = (huespedes[j].getPuntuacion());
+                    antiguedad = (huespedes[j].getAntiguedad());
+                    break;
+                }
+            }
+            archivo << reservas[i]->getCodigo() << " "
+                    << reservas[i]->getCodigoA() << " "
+                    << *(reservas[i]->getDocumento()) << " "
+                    << puntuacion  << " "
+                    << antiguedad  << " "
+                    << reservas[i]->getDate().mostrar() << " "
+                    << reservas[i]->getNoches() << " "
+                    << reservas[i]->getPago().mostrar() << " "
+                    << reservas[i]->getMetodoPago() << " "
+                    << reservas[i]->getMonto() <<endl;
+        }
+    }
+    archivo.close();
+
+}
+
+void comentario(string codigoR){
+    string comentario;
+    unsigned short int contador;
+    cout<<"Que deseas comentar/preguntar al anfitrion?" <<endl;
+    do{
+        contador = 0;
+        cout<<"Recuerda tienes maximo 1000 caracteres no te preocupes si te pasas te lo recordare "<<endl;
+        getline(cin >> ws, comentario);
+        for (char c : comentario) {
+            if (c != ' ') {
+                contador++;
+            }
+        }
+    }while(contador>1000);
+    ofstream archivo("Comentarios.txt", ios::app);
+    if(!archivo){
+        cout<<"No se pudo abrir el archivo"<<endl;
+        return;
+    }
+    archivo<<codigoR << " "<< comentario <<endl;
+    archivo.close();
+}
+
+
 void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojamientos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA){
     short int decision;
+
     bool bandera = false;
     string documento;
     do{
@@ -106,7 +167,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reserv
             cin >> documento;
             for (unsigned int i =0 ;i < conthu;i++ ){
                 if (*(huespedes[i].getDocumento()) == documento){
-                    huespedes[i].menu(alojamientos,reservas,contA,contR);
+                    huespedes[i].menu(huespedes,anfitriones,alojamientos,reservas,contan,conthu,contR,contA);
                     bandera = true;
 
                     break;
@@ -402,9 +463,9 @@ bool usofiltro(Alojamiento& alojamientos){
 
 void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2,string &documento){
     string fecha,municipio,codigo;//veroicar el tamano del arreglo
-    unsigned short int noches,decision,contador = 200;
+    unsigned short int noches,decision,contador = 200,valor;
     unsigned int monto;
-    bool bandera = false,metodo;
+    bool bandera = false;
     string* arr = new string[contador];
     Fecha nuevfecha;
     string* ptrdocumento = &documento;
@@ -455,7 +516,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
         arr = new string[contador];
         contador = 0;
         for(unsigned int i = 0; i<tamano1;i++){
-            if(alojamientos[i].disponibilidad(fecha,noches,municipio)){
+            if(alojamientos[i].disponibilidad(fecha,noches,municipio)){//cambiar en arr i agregar solo los indices
                 if(usofiltro(alojamientos[i])){
                     arr[contador] = alojamientos[i].getCodigo();
                     bandera = true;
@@ -497,13 +558,107 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
         }
     }
     monto = alojamientos[contador].getPrecio()* noches;
-    cout<<"\nEl total de su reserva es de: $"<< monto <<endl;
-    cout<<"\nPor que metodo desea pagar? \n0.PSE \n1.TCREDITO"<<endl;
-    cin>>metodo;
 
-    reservas[tamano2] = new Reserva(ptrdocumento, fecha, noches,codigoR(reservas[tamano2-1]->getCodigo()),codigo,metodo,obtenerFechaActual(),monto); // Asegúrate de tener este constructor
+    cout<<"\nEl total de su reserva es de: $"<< monto <<endl;
+    do{
+        cout<<"\nPor que metodo desea pagar? \n0.PSE \n1.TCREDITO"<<endl;
+        cin>>valor;
+    }while((valor != 0) && (valor != 1));
+
+    string codigoRe = codigoR(reservas[tamano2-1]->getCodigo());
+    cout<<"Desea agregar un comentario/pregunta al anfitrion? \n1.para si \n2.para no"<<endl;
+    cin >> decision;
+    if(decision == 1){
+        comentario(codigoRe);
+    }
+
+    reservas[tamano2] = new Reserva(ptrdocumento, fecha, noches,codigoRe,codigo,valor,obtenerFechaActual(),monto); // Asegúrate de tener este constructor
+
     alojamientos[contador].setReserva(reservas[tamano2]);        // Agrega la reserva al alojamiento
-    reservas[tamano2]->comprobante(nuevfecha.sumar_noches(noches));
+    reservas[tamano2 ]->comprobante(nuevfecha.sumar_noches(noches));
     tamano2++;
 }
 
+
+bool puedecancelar(Huesped* huespedes, Anfitrion* anfitriones,
+                   unsigned int& contan, unsigned int& conthu,
+                   string& documento, string& codigo, unsigned short int& decision) {
+    bool bandera = false;
+
+    if (decision == 1) { // Anfitrión
+        for (unsigned int i = 0; i < contan; i++) {
+            if (*(anfitriones[i].getDocumento()) == documento) {
+                unsigned int cantAlojamientos = anfitriones[i].getcontaAlojamientos();
+                for (unsigned int k = 0; k < cantAlojamientos; k++) {
+                    Alojamiento* aloj = anfitriones[i].getAlojamiento(k);
+                    if (aloj != nullptr) {
+                        unsigned int cantReservas = aloj->getCount();
+                        for (unsigned int j = 0; j < cantReservas; j++) {
+                            Reserva* r = aloj->getReserva(j);
+                            if (r != nullptr && r->getCodigo() == codigo) {
+                                bandera = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (bandera) break;
+                }
+            }
+            if (bandera) break;
+        }
+    } else { // Huésped
+        for (unsigned int i = 0; i < conthu; i++) {
+            if (*(huespedes[i].getDocumento()) == documento) {
+                unsigned int cantReservas = huespedes[i].getcount();
+                for (unsigned int j = 0; j < cantReservas; j++) {
+                    Reserva* r = huespedes[i].getReserva(j);
+                    if (r != nullptr && r->getCodigo() == codigo) {
+                        bandera = true;
+                        break;
+                    }
+                }
+            }
+            if (bandera) break;
+        }
+    }
+    return bandera;
+}
+
+
+void cancelareserva(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojamientos,
+                    unsigned short int &decision,unsigned int &contan,unsigned int &conthu,unsigned int &contR,
+                    unsigned int &contA,string &documento,string &codigo){
+    if((puedecancelar(huespedes,anfitriones,contan,conthu,documento,codigo,decision))){
+        for(unsigned int i = 0; i < conthu; i++) {
+            Huesped& h = huespedes[i];
+            for (unsigned int j = 0; j < conthu; j++) {
+                Reserva* r = h.getReserva(j);
+                if (r != nullptr && r->getCodigo() == codigo) {
+                    // Cancelar en el huésped
+                    h.cancelReserva(j);  // Debes implementar este método
+
+                    // Cancelar en alojamiento asociado
+                    string codAloj = r->getCodigoA(); // código del alojamiento
+                    for (unsigned int a = 0; a < contA; a++) {
+                        if (alojamientos[a].getCodigo() == codAloj) {
+                            alojamientos[a].cancelareserva(codigo);
+                            break;
+                        }
+                    }
+
+                    // Cancelar en arreglo global
+                    for (unsigned int m = 0; m < contR; m++) {
+                        if (reservas[m] != nullptr && reservas[m]->getCodigo() == codigo) {
+                            delete reservas[m];
+                            reservas[m] = nullptr;
+                            break;
+                        }
+                    }
+
+                    cout << "Reserva cancelada con exito.\n";
+                    return;
+                }
+            }
+        }
+    }
+}
