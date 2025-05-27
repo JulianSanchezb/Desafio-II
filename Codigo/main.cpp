@@ -19,7 +19,9 @@ int main() {
     crearAnfitriones(alojamientos, anfitriones);
     cantidadLineas("Reservas.txt", reser, huesp);
     Huesped *huespedes =new Huesped[huesp];
-    Reserva **reservas = new Reserva*[reser ];
+
+    Reserva **reservas = new Reserva*[reser+50];
+
 
     crearHuespedes(reservas, huespedes);
     asignarReservasA(alojamientos,reservas,alojam,reser);

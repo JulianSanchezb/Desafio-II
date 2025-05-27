@@ -31,25 +31,23 @@ void Huesped::menu(Huesped *huespedes, Anfitrion *anfitriones, Alojamiento* aloj
     unsigned short int decision;
     string codigo;
     do{
-        cout<<"MENU"<<endl;
+        cout<<"\n-----Bienvenido, Huesped-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Reservar"<<endl;
         cout<<"2.Cancelar reserva"<<endl;
         cout<<"3.salir"<<endl;
         cin>>decision;
-    }while((decision>3) && (decision<0));
-    switch (decision) {
-
-    case 1:reserva(alojamientos,reservas,contA,contR,documento);break;
-    case 2:
-        cout<<"Ingrese el codigo de la reserva que sale en su comprobante: "<<endl;
-        cin>>codigo;
-        cancelareserva(huespedes,anfitriones,reservas,alojamientos,decision,tamano1,tamano2,contR,contA,documento,codigo);
-
+        switch (decision) {
+        case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
+        case 2:
+            cout<<"Ingrese el codigo de la reserva que sale en su comprobante: "<<endl;
+            cin>>codigo;
+            cancelareserva(huespedes,anfitriones,reservas,alojamientos,decision,tamano1,tamano2,contR,contA,documento,codigo);
             break;
-    case 3:cout << "Saliendo del menu..." << endl;break;
-    default:
-        cout << "Opcion no valida. Intente de nuevo." << endl;
-    }
+        case 3:cout << "\nSaliendo del menu...\n" << endl;break;
+        default:
+            cout << "Opcion no valida. Intente de nuevo." << endl;
+        }
+    }while((decision>3) || (decision<0));
 }
 
 bool Huesped::verificar_valides(string fechaI,unsigned short int noches){
@@ -84,8 +82,22 @@ void Huesped::imprimir() const {
     for (unsigned int i = 0; i < count; ++i) {
         if (reservas[i] != nullptr) {
             cout << "Reserva #" << i + 1 << ":" << endl;
-            reservas[i]->mostrar();  // Asegúrate de tener este método en Reserva
+            reservas[i]->mostrar();
             cout << "-----------------------------" << endl;
+        }
+    }
+}
+
+void Huesped::actualizarReservas(){
+    unsigned short int c = 0;
+    for(unsigned short int i = count;i < 365; i++){
+        if(reservas[i] == nullptr){
+            c++;
+        }else{
+            reservas[i] = nullptr;
+        }
+        if(c == 10){
+            break;
         }
     }
 }
@@ -108,14 +120,17 @@ const string* Huesped::getDocumento() const {
 }
 
 Reserva* Huesped::getReserva(int index) {
-    if (index >= 0 && index < 20 && index < count) {
+    if (index >= 0 && index < 365 && index < count) {
         return reservas[index];
     }
     return nullptr;
 }
-unsigned int Huesped::getcount(){
+
+unsigned short int Huesped::getCount(){
     return count;
 }
+
+
 // Setters
 void Huesped::setPuntuacion(const string& _puntuacion) {
     puntuacion = _puntuacion;
@@ -132,4 +147,8 @@ void Huesped::setDocumento(const string& _documento) {
 void Huesped::setReserva(Reserva *_reserva) {
     reservas[count] = _reserva;
     count++;
+}
+
+void Huesped::setCount(unsigned short int _count){
+    count = _count;
 }

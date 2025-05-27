@@ -8,7 +8,7 @@ Anfitrion::Anfitrion(){
     antiguedad = "";
     documento = "";
     unsigned int contaAlojamientos = 0;
-    for(int i = 0;i < 20;i++){
+    for(int i = 0;i < 100;i++){
         alojamientos[i] = nullptr;
     }
 }
@@ -18,7 +18,7 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
     antiguedad = _antiguedad;
     documento = _documento;
     unsigned int contaAlojamientos = 0;
-    for(int i = 0;i < 20;i++){
+    for(int i = 0;i < 100;i++){
         alojamientos[i] = nullptr;
     }
 }
@@ -29,7 +29,7 @@ void Anfitrion::consultaReserva(){
         if (alojamientos[i] != nullptr) {
             for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
                 Reserva* reserva = alojamientos[i]->getReserva(j);
-                if (reserva != nullptr) {
+                if (reserva != nullptr){
                     reserva->mostrar();
                     cout << endl;
                 }
@@ -38,23 +38,40 @@ void Anfitrion::consultaReserva(){
     }
 }
 
-void Anfitrion::menu(){
-    unsigned short int decision;
+void Anfitrion::menu(Reserva **reservas,Huesped *huespedes,Alojamiento *alojamientos, unsigned int &tamanoR,unsigned int tamanoH,unsigned int tamanoA){
+    short int decision;
     do{
-        cout<<"MENU"<<endl;
+        cout<<"\n-----Bienvenido, Anfitrion-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Consultar reservas"<<endl;
         cout<<"2.Cancelar reserva"<<endl;
-        cout<<"3.salir"<<endl;
+        cout<<"3.Actualizar historico"<<endl;
+        cout<<"4.Salir del menu"<<endl;
         cin>>decision;
-    }while((decision>3) && (decision<0));
-    switch (decision) {
-    case 1:consultaReserva();break;
-    case 2:break;
-    case 3:cout << "Saliendo del menu..." << endl;break;
-    default:
-        cout << "Opcion no valida. Intente de nuevo." << endl;
-    }
 
+        switch (decision) {
+        case 1:consultaReserva();break;
+        case 2:break;
+        case 3:actualizarHistorico(reservas,tamanoR);
+            compactarReservas(reservas,tamanoR);
+
+            asignarReservasA(alojamientos,reservas,tamanoA,tamanoR);
+            asignarReservah(huespedes,reservas,tamanoH,tamanoR);
+
+            for(unsigned int i = 0;i < ((tamanoA > tamanoH) ? tamanoA:tamanoH);i++){
+                if(i < tamanoA){
+                    alojamientos[i].actualizarReservas();
+                }
+                if(i < tamanoH){
+                    huespedes[i].actualizarReservas();
+                }
+            }
+            break;
+        case 4:cout << "Saliendo del menu..." << endl;break;
+        default:
+            cout<<"\n!!!OPCION INVALIDA¡¡¡\n";
+        }
+
+    }while(decision > 4 || decision < 0);
 
 }
 
@@ -86,7 +103,7 @@ string* Anfitrion::getDocumento() {
 }
 
 Alojamiento* Anfitrion::getAlojamiento(int index) {
-    if (index >= 0 && index < 20 && index < contaAlojamientos) {
+    if (index >= 0 && index < 100 && index < contaAlojamientos) {
         return alojamientos[index];
     }
     return nullptr;

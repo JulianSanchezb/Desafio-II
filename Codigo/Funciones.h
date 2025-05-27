@@ -8,6 +8,7 @@ class Anfitrion;
 class Reserva;
 class Alojamiento;
 
+
 string obtenerFechaActual();
 
 string aMinuscula(string &str);
@@ -32,12 +33,17 @@ void crearHuespedes(Reserva** reservas, Huesped* huespedes);
 
 void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2);
 
-void asignarReservah(Huesped* huespedes,Reserva* reservas,unsigned int &tamano1, unsigned int &tamano2);
+void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2);
+
+void actualizarHistorico(Reserva **reservas, unsigned int &tamano);
+
+void compactarReservas(Reserva** reservas, unsigned int& tamano);
 
 bool usofiltro(Alojamiento &alojamientos);
 
 void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2,string &documento);
-//void actualizarHistorico(Reserva **reservas,unsigned int tamano);
+
+void actualizarHistorico(Reserva **reservas,unsigned int &tamano);
 bool puedecancelar(Huesped* huespedes, Anfitrion* anfitriones,
                    unsigned int& contan, unsigned int& conthu,
                    string& documento, string& codigo, unsigned short int& decision);

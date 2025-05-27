@@ -15,7 +15,7 @@ Alojamiento::Alojamiento() {
     precio = 0;
     amenidades = "";
     count = 0;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 365; i++) {
         reservas[i] = nullptr;
     }
 }
@@ -34,7 +34,7 @@ Alojamiento::Alojamiento(const string& _nombre, const string& _codigo, string* _
     precio = _precio;
     amenidades = _amenidades;
     count = 0;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 365; i++) {
         reservas[i] = nullptr;
     }
 
@@ -87,7 +87,7 @@ bool Alojamiento::filtro(float puntuacionusu, unsigned int coste,unsigned short 
 }
 
 void Alojamiento::imprimir() const {
-    cout << "=== Alojamiento ===" << endl;
+    cout << "\n=== Alojamiento ===\n" << endl;
     cout << "Nombre: " << nombre << endl;
     cout << "Codigo: " << codigo << endl;
     cout << "Documento del propietario: " << (documento ? *documento : "N/A") << endl;
@@ -98,11 +98,28 @@ void Alojamiento::imprimir() const {
     cout << "Amenidades: " << amenidades << endl;
 }
 
+
 void Alojamiento::cancelareserva(const string& codigo) {
     for (unsigned short int i = 0; i < count; ++i) {
         if (reservas[i] != nullptr && reservas[i]->getCodigo() == codigo) {
             reservas[i] = nullptr;
             return;
+        }
+    }
+}
+
+void Alojamiento::actualizarReservas(){
+    unsigned short int c = 0;
+    for(unsigned short int i = count;i < 365; i++){
+        if(reservas[i] == nullptr){
+
+            c++;
+        }else{
+            reservas[i] = nullptr;
+
+        }
+        if(c == 10){
+            break;
         }
     }
 }
@@ -191,4 +208,8 @@ void Alojamiento::setReserva(Reserva *_reserva) {
     }else{
         cout<<"\nEXCEDIO LA CANTIDAD DE RESERVAS PERMITIDA\n";
     }
+}
+
+void Alojamiento::setCount(unsigned short int _count){
+    count = _count;
 }

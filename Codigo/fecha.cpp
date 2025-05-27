@@ -52,7 +52,7 @@ bool Fecha::fechaValida(){
         meses[1] = 29;
     }
 
-    if(dia > meses[mes - 1] && anio < 2000){
+    if(dia > meses[mes - 1] || anio < 2000){
         return false;
     }
 
@@ -123,6 +123,7 @@ string Fecha::sumar_noches(unsigned short int noches){
             }
         }
     }
+
     return to_string(d) + "/" + to_string(m) + "/" + to_string(a);
 }
 
