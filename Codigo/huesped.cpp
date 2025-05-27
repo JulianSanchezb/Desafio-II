@@ -1,11 +1,13 @@
 #include "huesped.h"
 #include <iostream>
+
+
 Huesped::Huesped() {
     puntuacion = "";
     antiguedad = "";
     documento = "";
     count = 0;
-    for(int i = 0;i < 20;i++){
+    for(int i = 0;i < 365;i++){
         reservas[i] = nullptr;
     }
 }
@@ -15,14 +17,14 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
     antiguedad = _antiguedad;
     documento = _documento;
     count = 0;
-    for(int i = 0;i < 20;i++){
+    for(int i = 0;i < 365;i++){
         reservas[i] = nullptr;
     }
 }
 
 
 
-void Huesped::menu(){
+void Huesped::menu(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
 
     unsigned short int decision;
     do{
@@ -33,13 +35,31 @@ void Huesped::menu(){
         cin>>decision;
     }while((decision>3) && (decision<0));
     switch (decision) {
-    case 1:;break;
+    case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
     case 2:break;
     case 3:cout << "Saliendo del menu..." << endl;break;
     default:
         cout << "Opcion no valida. Intente de nuevo." << endl;
     }
 }
+
+bool Huesped::verificar_valides(string fechaI,unsigned short int noches){
+    Fecha fechainiI(fechaI),fechafinalI,fechainicialo,fechafinalo;
+    unsigned short int nochesI;
+    fechafinalI = fechainiI.sumar_noches(noches);
+    for(unsigned short int i = 0;i <365;i++){//verificar si se puede crear un contador para las reservas
+        if (reservas[i] != nullptr){
+            fechainicialo = reservas[i]->getDate();
+            nochesI = reservas[i]->getNoches();
+            fechafinalo = fechainicialo.sumar_noches(nochesI);
+            if (!(fechafinalI < fechainicialo || fechainiI > fechafinalo)){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 
 void Huesped::imprimir() const {
     cout << "Documento: " << documento << endl;

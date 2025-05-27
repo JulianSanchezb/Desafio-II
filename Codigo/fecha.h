@@ -1,5 +1,6 @@
 #ifndef FECHA_H
 #define FECHA_H
+#include "Funciones.h"
 using namespace std;
 #include <string>
 

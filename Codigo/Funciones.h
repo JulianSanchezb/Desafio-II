@@ -8,7 +8,18 @@ class Anfitrion;
 class Reserva;
 class Alojamiento;
 
-void ingresar_sistema(Huesped *huespedes, Anfitrion *anfitriones, Reserva **reservas, Alojamiento *alojamientos, unsigned int &contan, unsigned int &conthu, unsigned int contR, unsigned int contal);
+
+string obtenerFechaActual();
+
+string aMinuscula(string &str);
+
+bool Sintaxisvalida(const string& municipio);
+
+bool municipioexiste(Alojamiento* alojamientos,unsigned int &tamano,string &municipio);
+
+string codigoR(string codigo);
+
+void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojaminetos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA);
 
 void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2);
 
@@ -23,6 +34,10 @@ void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1
 void actualizarHistorico(Reserva **reservas,unsigned int tamano);
 
 void compactarReservas(Reserva** reservas, unsigned int& tamano);
+
+bool usofiltro(Alojamiento &alojamientos);
+
+void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2,string &documento);
 
 
 #endif // FUNCIONES_H
