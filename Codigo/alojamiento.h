@@ -29,7 +29,7 @@ public:
 
     bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
     void imprimir() const;
-
+    void actualizarReservas();
     //Getters
     string getNombre();
     string getCodigo();
@@ -52,6 +52,7 @@ public:
     void setPrecio(unsigned int _precio);
     void setAmenidades(const string& _amenidades);
     void setReserva(Reserva* _reserva);
+    void setCount(unsigned short int _count);
 };
 
 #endif // ALOJAMIENTO_H

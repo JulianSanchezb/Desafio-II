@@ -38,19 +38,36 @@ void Anfitrion::consultaReserva(){
     }
 }
 
-void Anfitrion::menu(){
+void Anfitrion::menu(Reserva **reservas,Huesped *huespedes,Alojamiento *alojamientos, unsigned int tamanoR,unsigned int tamanoH,unsigned int tamanoA){
     unsigned short int decision;
     do{
         cout<<"MENU"<<endl;
         cout<<"1.Consultar reservas"<<endl;
         cout<<"2.Cancelar reserva"<<endl;
-        cout<<"3.salir"<<endl;
+        cout<<"3.Actualizar historico"<<endl;
+        cout<<"4.salir"<<endl;
         cin>>decision;
-    }while((decision>3) && (decision<0));
+        if((decision>4) && (decision<0)){
+            cout<<"\n!!!OPCION INVALIDA¡¡¡\n";
+        }
+    }while((decision>4) && (decision<0));
     switch (decision) {
     case 1:consultaReserva();break;
     case 2:break;
-    case 3:cout << "Saliendo del menu..." << endl;break;
+    case 3:actualizarHistorico(reservas,tamanoR);
+        compactarReservas(reservas,tamanoR);
+        asignarReservasA(alojamientos,reservas,tamanoA,tamanoR);
+        asignarReservah(huespedes,reservas,tamanoH,tamanoR);
+        for(unsigned int i = 0;i < ((tamanoA > tamanoH) ? tamanoA:tamanoH);i++){
+            if(i < tamanoA){
+                alojamientos[i].actualizarReservas();
+            }
+            if(i < tamanoH){
+                huespedes[i].actualizarReservas();
+            }
+        }
+        break;
+    case 4:cout << "Saliendo del menu..." << endl;break;
     default:
         cout << "Opcion no valida. Intente de nuevo." << endl;
     }

@@ -1,3 +1,4 @@
+#include "Funciones.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,7 +8,6 @@
 #include <anfitrion.h>
 #include <huesped.h>
 #include <reserva.h>
-#include "Funciones.h"
 
 using namespace std;
 
@@ -75,7 +75,7 @@ string codigoR(string codigo){
     return to_string(codigopr);
 }
 
-void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojaminetos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA){
+void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojamientos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA)
     unsigned short int decision;
     bool bandera = false;
     string documento;
@@ -94,7 +94,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reserv
         cin >> documento;
         for (unsigned int i =0 ;i < contan;i++ ){
             if (*(anfitriones[i].getDocumento()) == documento){
-               anfitriones[i].menu();
+               anfitriones[i].menu(reservas,huespedes,alojamientos,contR,conthu,contA);
                 bandera = true;
                 break;
             }
@@ -108,7 +108,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reserv
         cin >> documento;
         for (unsigned int i =0 ;i < conthu;i++ ){
             if (*(huespedes[i].getDocumento()) == documento){
-                huespedes[i].menu(alojaminetos,reservas,contA,contR);
+                huespedes[i].menu(alojamientos,reservas,contA,contR);
                 bandera = true;
                 break;
             }
@@ -242,6 +242,7 @@ void crearHuespedes(Reserva** reservas, Huesped* huespedes){
         }
 
         // Crear reserva
+
         reservas[contaReser] = new Reserva(documentoPtr, fechaI, stoi(cantidadN), codigo, codigoA, stoi(metodoP), fechaP, stoi(monto));
 
         // Asignar la reserva al huésped correcto
@@ -264,11 +265,76 @@ void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int 
 void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
     for(int i = 0;i < tamano1;i++){
         for(int j = 0;j < tamano2;j++ ){
-            if(huespedes[i].getDocumento() == reservas[j]->getDocumento()){
+            if(*(huespedes[i].getDocumento()) == (reservas[j]->getDocumentoValor())){
+
                 huespedes[i].setReserva(reservas[j]);
             }
         }
     }
+}
+
+
+void actualizarHistorico(Reserva **reservas,unsigned int tamano){
+    Fecha fechai,fechaCorte;
+    string fecha;
+    unsigned int indice = 0;
+    for(unsigned int i = 0;i < tamano;i++){
+        if(reservas[i]){
+            fechai = reservas[i]->getDate();
+            indice = i;
+            break;
+        }
+    }
+    do{
+        do{
+            cout<<"\nIngrese la fecha de corte teniendo en cuenta las que hay activas en el momento \nLa fecha minima es: "; fechai.mostrar();cout<<"\nIngrese la fecha con el formato d/m/aaaa\n";
+            cin>>fecha;
+            fechaCorte = Fecha(fecha);
+            if(!fechaCorte.fechaValida()){
+                cout<<"\nLO INGRESADO NO ES UNA FECHA VALIDA, INGRESE UNA FECHA NUEVAMENTE\n";
+            }
+        }while(!fechaCorte.fechaValida());
+        if(fechai > fechaCorte){
+            cout<<"\nLA FECHA INGRESADA ES ANTERIOR A LA DISPONIBLE\nIngrese una fecha nuevamente\n";
+        }
+    }while(fechai > fechaCorte);
+
+    ofstream archivo("Historico reservas.txt",ios::app);
+    if(!archivo){
+        cerr<<"\nEl archivo "<<"Historico reservas.txt"<<"no se puedo abrir\n";
+        return;
+    }
+
+    for(unsigned int i = indice;i < tamano;i++){
+        if(reservas[i]){
+            if(reservas[i]->getDate() < fechaCorte){
+                archivo <<reservas[i]->getCodigo()<<" "<<reservas[i]->getCodigoA()<<" "<<reservas[i]->getDocumentoValor()<<" "
+                        <<(reservas[i]->getDate()).getDia()<<"/"<<(reservas[i]->getDate()).getMes()<<"/"<<(reservas[i]->getDate()).getAnio()<<" "
+                        <<reservas[i]->getNoches()<<" "<<(reservas[i]->getPago()).getDia()<<"/"<<(reservas[i]->getPago()).getMes()<<"/"<<(reservas[i]->getPago()).getAnio()<<" "
+                        <<reservas[i]->getMetodoPago()<<" "<<reservas[i]->getMonto()<<endl;
+                delete reservas[i];
+                reservas[i] = nullptr;
+            }else{
+                break;
+            }
+        }
+    }
+    archivo.close();
+}
+
+void compactarReservas(Reserva** reservas, unsigned int& tamano) {
+    unsigned int nuevaPos = 0;
+
+    for (unsigned int i = 0; i < tamano; ++i) {
+        if (reservas[i] != nullptr) {
+            if (i != nuevaPos) {
+                reservas[nuevaPos] = reservas[i];
+                reservas[i] = nullptr;
+            }
+            ++nuevaPos;
+        }
+    }
+    tamano = nuevaPos;
 }
 
 bool usofiltro(Alojamiento& alojamientos){
@@ -428,5 +494,4 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
     reservas[tamano2]->comprobante(nuevfecha.sumar_noches(noches));
     tamano2++;
 }
-
 

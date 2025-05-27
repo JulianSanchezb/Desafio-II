@@ -76,6 +76,20 @@ void Huesped::imprimir() const {
     }
 }
 
+void Huesped::actualizarReservas(){
+    unsigned short int c = 0;
+    for(unsigned short int i = count;i < 365; i++){
+        if(reservas[i] == nullptr){
+            c++;
+        }else{
+            reservas[i] = nullptr;
+        }
+        if(c == 10){
+            break;
+        }
+    }
+}
+
 // Getters
 string Huesped::getPuntuacion() {
     return puntuacion;
@@ -100,6 +114,10 @@ Reserva* Huesped::getReserva(int index) {
     return nullptr;
 }
 
+unsigned short Huesped::getCount(){
+    return count;
+}
+
 // Setters
 void Huesped::setPuntuacion(const string& _puntuacion) {
     puntuacion = _puntuacion;
@@ -116,4 +134,8 @@ void Huesped::setDocumento(const string& _documento) {
 void Huesped::setReserva(Reserva *_reserva) {
     reservas[count] = _reserva;
     count++;
+}
+
+void Huesped::setCount(unsigned short int _count){
+    count = _count;
 }
