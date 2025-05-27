@@ -98,6 +98,14 @@ void Alojamiento::imprimir() const {
     cout << "Amenidades: " << amenidades << endl;
 }
 
+void Alojamiento::cancelareserva(const string& codigo) {
+    for (unsigned short int i = 0; i < count; ++i) {
+        if (reservas[i] != nullptr && reservas[i]->getCodigo() == codigo) {
+            reservas[i] = nullptr;
+            return;
+        }
+    }
+}
 
 string Alojamiento::getNombre()  {
     return nombre;

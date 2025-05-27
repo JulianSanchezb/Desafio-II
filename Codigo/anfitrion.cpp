@@ -91,6 +91,9 @@ Alojamiento* Anfitrion::getAlojamiento(int index) {
     }
     return nullptr;
 }
+unsigned int Anfitrion::getcontaAlojamientos(){
+    return contaAlojamientos;
+}
 // Setters
 void Anfitrion::setPuntuacion(const string& _puntuacion) {
     puntuacion = _puntuacion;

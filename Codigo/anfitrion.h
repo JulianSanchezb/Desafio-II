@@ -25,6 +25,7 @@ public:
     string getAntiguedad();
     string* getDocumento();      // Devuelve puntero directo al string documento
     Alojamiento *getAlojamiento(int index);
+    unsigned int getcontaAlojamientos();
     // Setters
     void setPuntuacion(const string& _puntuacion);
     void setAntiguedad(const string& _antiguedad);

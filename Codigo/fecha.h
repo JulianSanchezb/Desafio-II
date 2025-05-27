@@ -18,7 +18,7 @@ public:
     bool bisiesto();
     string sumar_noches(unsigned short int noches);
     string nombremes();
-    void mostrar() const;
+    string mostrar() const;
     //Getters
     unsigned short int getDia();
     unsigned short int getMes();
