@@ -60,7 +60,7 @@ void Reserva::mostrar() const {
 //verificar comprobante
 void Reserva::comprobante(string fechafin){
     Fecha fin(fechafin);
-    cout<<"--------COMPROBANTE RESERVA--------"<<endl;
+    cout<<"\n--------COMPROBANTE RESERVA--------\n"<<endl;
     cout << "Documento: " << (documento ? *documento : "N/A") << endl; //falta poner el nombre
     cout<<"Fecha de inicio: "<<date.nombreDia()<<","<<date.getDia()<<" de "<<date.nombremes()<<" del "<<date.getAnio()<<endl;
     cout<<"Fecha final: "<<fin.nombreDia()<<","<<fin.getDia()<<" de "<<fin.nombremes()<<" del "<<fin.getAnio()<<endl; //agregar
@@ -70,7 +70,7 @@ void Reserva::comprobante(string fechafin){
     cout << "Fecha de pago: ";
     pago.mostrar();
     cout << endl;
-    cout << "Monto: $" << monto << endl;
+    cout << "Monto: $" << monto <<"\n\n";
 }
 
 // Getters

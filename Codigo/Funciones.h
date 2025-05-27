@@ -31,7 +31,7 @@ void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int 
 
 void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2);
 
-void actualizarHistorico(Reserva **reservas,unsigned int tamano);
+void actualizarHistorico(Reserva **reservas, unsigned int &tamano);
 
 void compactarReservas(Reserva** reservas, unsigned int& tamano);
 

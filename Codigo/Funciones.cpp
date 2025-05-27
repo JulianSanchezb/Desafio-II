@@ -44,7 +44,7 @@ string aMinuscula(string &str) {
 bool Sintaxisvalida(const string& municipio) {
     for (char c : municipio) {
         if (!isalpha(c) && c != ' ') {
-            cout<<"El municipi ingresado posee caracteres invalidos (en caso de ser ñ usar n)"<<endl;
+            cout<<"El municipio ingresado posee caracteres invalidos (en caso de ser ñ usar n)"<<endl;
             return false;
         }
     }
@@ -64,7 +64,7 @@ bool municipioexiste(Alojamiento* alojamientos,unsigned int &tamano,string &muni
             return true;
         }
     }
-    cout<<"Lo sentimos actualmente no hay ningun alojamiento disponible en este municipio"<<endl;
+    cout<<"\nLo sentimos actualmente no hay ningun alojamiento disponible en este municipio"<<endl;
     return false;
 }
 
@@ -75,52 +75,53 @@ string codigoR(string codigo){
     return to_string(codigopr);
 }
 
-void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojamientos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA)
-    unsigned short int decision;
+void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Reserva **reservas,Alojamiento* alojamientos,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA){
+    short int decision;
     bool bandera = false;
     string documento;
     do{
-        cout<<"Inicio de sesion"<<endl;
-        cout<<"1.Anfitrion"<<endl;
+        bandera = false;
+        cout<<"----Inicio de sesion----\n\nIngrese el numero que corresponde a su tipo de perfil o si desea salir del programa.\n";
+        cout<<"\n1.Anfitrion"<<endl;
         cout<<"2.Huesped"<<endl;
-        cout<<"3.salir"<<endl;
+        cout<<"3.Salir del programa."<<endl;
         cin>>decision;
-    }while((decision>3) && (decision<0));
-
-
-    switch (decision) {
-    case 1:
-        cout<<"ingrese el documento del anfitrion: "<<endl;
-        cin >> documento;
-        for (unsigned int i =0 ;i < contan;i++ ){
-            if (*(anfitriones[i].getDocumento()) == documento){
-               anfitriones[i].menu(reservas,huespedes,alojamientos,contR,conthu,contA);
-                bandera = true;
-                break;
+        switch (decision) {
+        case 1:
+            cout<<"\nIngrese el documento del anfitrion: "<<endl;
+            cin >> documento;
+            for (unsigned int i =0 ;i < contan;i++ ){
+                if (*(anfitriones[i].getDocumento()) == documento){
+                    anfitriones[i].menu(reservas,huespedes,alojamientos,contR,conthu,contA);
+                    bandera = true;
+                    break;
+                }
             }
-        }
-        if (!bandera){
-            cout<<"Lo sentimos no te encuentras registrado como Anfitrion"<<endl;
-        }
-    break;
-    case 2:
-        cout<<"ingrese el documento del huesped: "<<endl;
-        cin >> documento;
-        for (unsigned int i =0 ;i < conthu;i++ ){
-            if (*(huespedes[i].getDocumento()) == documento){
-                huespedes[i].menu(alojamientos,reservas,contA,contR);
-                bandera = true;
-                break;
+            if (!bandera){
+                cout<<"\nLo sentimos, no te encuentras registrado como Anfitrion\n"<<endl;
             }
+            break;
+        case 2:
+            cout<<"\nIngrese el documento del huesped: "<<endl;
+            cin >> documento;
+            for (unsigned int i =0 ;i < conthu;i++ ){
+                if (*(huespedes[i].getDocumento()) == documento){
+                    huespedes[i].menu(alojamientos,reservas,contA,contR);
+                    bandera = true;
+
+                    break;
+                }
+            }
+            if (!bandera){
+                cout<<"\nLo sentimos no te encuentras registrado como huesped\n"<<endl;
+            }
+            break;
+        case 3:cout << "\nSaliendo del menu...\n" << endl;return;
+        default:
+            cout << "\nOpcion no valida, intente de nuevo.\n" << endl;
         }
-        if (!bandera){
-            cout<<"Lo sentimos no te encuentras registrado como huesped"<<endl;
-        }
-    break;
-    case 3:cout << "Saliendo del menu..." << endl;break;
-    default:
-        cout << "Opcion no valida. Intente de nuevo." << endl;
-    }
+    }while(true);
+
 }
 
 void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
@@ -129,7 +130,7 @@ void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
     string arr[100];
     bool comprobacion = true;
     if (!archivo) {
-        cerr << "No se pudo abrir el archivo.\n";
+        cerr << "\nNo se pudo abrir el archivo.\n";
     }
     while (getline(archivo,linea)){
         conta1 ++;
@@ -163,7 +164,7 @@ void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones) {
     fstream archivo("Alojamientos.txt");
     string linea;
     if (!archivo) {
-        cerr << "No se pudo abrir el archivo" << endl;
+        cerr << "\nNo se pudo abrir el archivo\n" << endl;
         return;
     }
 
@@ -253,28 +254,38 @@ void crearHuespedes(Reserva** reservas, Huesped* huespedes){
 }
 
 void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
-    for(int i = 0;i < tamano1;i++){
-        for(int j = 0;j < tamano2;j++ ){
+    for(unsigned int i = 0;i < tamano1;i++){
+        for(unsigned int j = 0;j < tamano2;j++ ){
+
+            if(j == 0){
+                alojamientos[i].setCount(0);
+            }
             if(alojamientos[i].getCodigo() == reservas[j]->getCodigoA()){
                 alojamientos[i].setReserva(reservas[j]);
             }
+
         }
     }
 }
 
 void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
-    for(int i = 0;i < tamano1;i++){
-        for(int j = 0;j < tamano2;j++ ){
-            if(*(huespedes[i].getDocumento()) == (reservas[j]->getDocumentoValor())){
 
+    for(unsigned int i = 0;i < tamano1;i++){
+        for(unsigned int j = 0;j < tamano2;j++ ){
+
+            if(j == 1){
+                huespedes[i].setCount(0);
+            }
+            if(*(huespedes[i].getDocumento()) == (reservas[j]->getDocumentoValor())){
                 huespedes[i].setReserva(reservas[j]);
             }
+
         }
     }
 }
 
 
-void actualizarHistorico(Reserva **reservas,unsigned int tamano){
+void actualizarHistorico(Reserva **reservas,unsigned int &tamano){
     Fecha fechai,fechaCorte;
     string fecha;
     unsigned int indice = 0;
@@ -287,11 +298,11 @@ void actualizarHistorico(Reserva **reservas,unsigned int tamano){
     }
     do{
         do{
-            cout<<"\nIngrese la fecha de corte teniendo en cuenta las que hay activas en el momento \nLa fecha minima es: "; fechai.mostrar();cout<<"\nIngrese la fecha con el formato d/m/aaaa\n";
+            cout<<"\nIngrese la fecha de corte teniendo en cuenta las que hay activas en el momento \nLa fecha minima es: "; fechai.mostrar();cout<<"\n\nIngrese la fecha en el formato dia/mes/anio\n";
             cin>>fecha;
             fechaCorte = Fecha(fecha);
             if(!fechaCorte.fechaValida()){
-                cout<<"\nLO INGRESADO NO ES UNA FECHA VALIDA, INGRESE UNA FECHA NUEVAMENTE\n";
+                cout<<"\nLO INGRESADO NO ES UNA FECHA VALIDA\nIngrese una fecha nuevamente\n";
             }
         }while(!fechaCorte.fechaValida());
         if(fechai > fechaCorte){
@@ -343,17 +354,17 @@ bool usofiltro(Alojamiento& alojamientos){
     float puntuacion;
     bool retorno;
     do{
+        cout<<"\nEscoja la opcion que desee: "<<endl;
         cout<<"0. Filtrar por valor maximo y puntuacion minima "<<endl;
         cout<<"1. Filtar unicamento por puntuacion minima"<<endl;
         cout<<"2. Filtrar unicamento por valor maximo"<<endl;
-        cout<<"QUE DESEA?: "<<endl;
         cin >> decision;
-    }while((decision < 0) && (decision > 2));
+    }while((decision < 0) || (decision > 2));
     switch (decision) {
     case 0:
-        cout<<"Ingrese el valor maximo"<<endl;
+        cout<<"\nIngrese el valor maximo"<<endl;
         cin>>precio;
-        cout<<"Ingrese la puntuacion minima"<<endl;
+        cout<<"\nIngrese la puntuacion minima"<<endl;
         do{
             cout<<"Entre 0.0-5.0"<<endl;
             cin>>puntuacion;
@@ -399,30 +410,30 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
     string* ptrdocumento = &documento;
     contador = 0;
     do{
-    cout<<"porfavor ingresar una fecha en formato dia/mes/anio: "<<endl;
+    cout<<"\nPorfavor ingresar una fecha en formato dia/mes/anio: "<<endl;
     cin>>fecha;
     nuevfecha = Fecha(fecha);
     }while(!nuevfecha.fechaValida());
 
     do{
-        cout<<"porfavor ingresar un municipio: "<<endl;
+        cout<<"\nPorfavor ingresar un municipio: "<<endl;
         cin>>municipio;
         municipio = aMinuscula(municipio);
     }while(!Sintaxisvalida(municipio)||!municipioexiste(alojamientos,tamano1,municipio) );
 
-    cout<<"Porfavor ingresar una cantidad de noches: "<<endl;
+    cout<<"\nPorfavor ingresar una cantidad de noches: "<<endl;
     cin>> noches;
 
     for(unsigned int i = 0; i<tamano1;i++){
         if(alojamientos[i].disponibilidad(fecha,noches,municipio)){
-            cout<<"El alojamiento corresponde al ------"<<alojamientos[i].getCodigo()<<endl;
+            cout<<"\n-----El alojamiento corresponde al ------ \n==========="<<alojamientos[i].getCodigo()<<"============"<<endl;
             arr[contador] = alojamientos[i].getCodigo();
             bandera = true;
             contador++;
         }
     }
     if(bandera == false){
-        cout<<"Lo sentimos no tenemos alojamientos disponibles"<<endl;
+        cout<<"\nLo sentimos no tenemos alojamientos disponibles\n"<<endl;
         return;
     }
     string* arr2 = new string[contador];
@@ -433,9 +444,9 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
     arr = arr2;
 
 
-    cout<<"Deseas filtrar por valor maximo, puntuacion minima?"<<endl;
+    cout<<"\nDeseas filtrar por valor maximo, puntuacion minima?"<<endl;
     do{
-        cout<<"1. para si \n 0. para no"<<endl;
+        cout<<"1. para si \n0. para no"<<endl;
         cin >> decision;
     }while(decision != 0 && decision != 1);
     bandera = false;
@@ -453,7 +464,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
             }
         }
         if(bandera == false){
-            cout<<"Lo sentimos no tenemos alojamientos disponibles"<<endl;
+            cout<<"\nLo sentimos no tenemos alojamientos disponibles\n"<<endl;
             return;
         }
         string* arr2 = new string[contador];
@@ -467,10 +478,10 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
 
     }
     bandera = false;
-    cout<<"Que alojamiento a sido de su agrado?"<<endl;
+    cout<<"\nQue alojamiento ha sido de su agrado?"<<endl;
     do{
-        cout<<"RECUERDA: abajo de cada alojamiento hay un numero identificador 100001,100002,..."<<endl;
-        cout<<"ingresa el numero identificador del alojamiento que deseas: "<<endl;
+        cout<<"\nRECUERDE: abajo de cada alojamiento hay un numero identificador 100001,100002,..."<<endl;
+        cout<<"\nIngrese el numero identificador del alojamiento que desee: "<<endl;
         cin >>codigo;
         for (int i = 0; i < contador; ++i) {
             if (arr[i] == codigo) {
@@ -486,9 +497,10 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1,
         }
     }
     monto = alojamientos[contador].getPrecio()* noches;
-    cout<<"El total de su reserva es de: "<< monto <<endl;
-    cout<<"por que metodo desa pagar? \n0.PSE \n1.TCREDITO"<<endl;
+    cout<<"\nEl total de su reserva es de: $"<< monto <<endl;
+    cout<<"\nPor que metodo desea pagar? \n0.PSE \n1.TCREDITO"<<endl;
     cin>>metodo;
+
     reservas[tamano2] = new Reserva(ptrdocumento, fecha, noches,codigoR(reservas[tamano2-1]->getCodigo()),codigo,metodo,obtenerFechaActual(),monto); // Asegúrate de tener este constructor
     alojamientos[contador].setReserva(reservas[tamano2]);        // Agrega la reserva al alojamiento
     reservas[tamano2]->comprobante(nuevfecha.sumar_noches(noches));

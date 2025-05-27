@@ -95,7 +95,7 @@ void Fecha::mostrar() const {
          << anio;
 }
 
-Fecha Fecha::sumar_noches(unsigned short int noches){
+string Fecha::sumar_noches(unsigned short int noches){
     unsigned short int meses[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     unsigned short int diasres, d = dia, m = mes, a = anio;;
     while (noches > 0) {
@@ -121,8 +121,8 @@ Fecha Fecha::sumar_noches(unsigned short int noches){
             }
         }
     }
-    Fecha f(to_string(d) + to_string(m) + to_string(a));
-    return f;
+
+    return to_string(d) + "/" + to_string(m) + "/" + to_string(a);
 }
 
 bool Fecha::operator<(const Fecha& otra) const {

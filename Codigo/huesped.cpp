@@ -28,19 +28,19 @@ void Huesped::menu(Alojamiento* alojamientos,Reserva** reservas,unsigned int &ta
 
     unsigned short int decision;
     do{
-        cout<<"MENU"<<endl;
+        cout<<"\n-----Bienvenido, Huesped-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Reservar"<<endl;
         cout<<"2.Cancelar reserva"<<endl;
         cout<<"3.salir"<<endl;
         cin>>decision;
-    }while((decision>3) && (decision<0));
-    switch (decision) {
-    case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
-    case 2:break;
-    case 3:cout << "Saliendo del menu..." << endl;break;
-    default:
-        cout << "Opcion no valida. Intente de nuevo." << endl;
-    }
+        switch (decision) {
+        case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
+        case 2:break;
+        case 3:cout << "\nSaliendo del menu...\n" << endl;break;
+        default:
+            cout << "Opcion no valida. Intente de nuevo." << endl;
+        }
+    }while((decision>3) || (decision<0));
 }
 
 bool Huesped::verificar_valides(string fechaI,unsigned short int noches){
@@ -70,7 +70,7 @@ void Huesped::imprimir() const {
     for (unsigned int i = 0; i < count; ++i) {
         if (reservas[i] != nullptr) {
             cout << "Reserva #" << i + 1 << ":" << endl;
-            reservas[i]->mostrar();  // Asegúrate de tener este método en Reserva
+            reservas[i]->mostrar();
             cout << "-----------------------------" << endl;
         }
     }
@@ -108,7 +108,7 @@ const string* Huesped::getDocumento() const {
 }
 
 Reserva* Huesped::getReserva(int index) {
-    if (index >= 0 && index < 20 && index < count) {
+    if (index >= 0 && index < 365 && index < count) {
         return reservas[index];
     }
     return nullptr;
