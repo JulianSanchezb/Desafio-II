@@ -52,14 +52,14 @@ bool Fecha::fechaValida(){
         meses[1] = 29;
     }
 
-    if(dia > meses[mes - 1] || anio < 2000){
+    if(dia > meses[mes - 1] || anio < 2000 || (mes > 12)){
         return false;
     }
 
     return true;
 }
 
-string Fecha::nombreDia(){
+string Fecha::nombreDia() const{
     int y = anio;
     int m = mes;
     int d = dia;
@@ -81,7 +81,7 @@ string Fecha::nombreDia(){
     return dias[h];
 }
 
-string Fecha::nombremes(){
+string Fecha::nombremes() const{
     string dias[12] = {
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
     };
@@ -140,15 +140,15 @@ bool Fecha::operator>(const Fecha& otra) const {
 }
 
 //Getters
-unsigned short int Fecha::getDia(){
+unsigned short int Fecha::getDia() const{
     return dia;
 }
 
-unsigned short int Fecha::getMes(){
+unsigned short int Fecha::getMes() const{
     return mes;
 }
 
-unsigned short int Fecha::getAnio(){
+unsigned short int Fecha::getAnio() const{
     return anio;
 }
 //Setters

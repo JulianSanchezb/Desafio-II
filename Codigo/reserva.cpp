@@ -1,5 +1,6 @@
 #include "reserva.h"
 #include "huesped.h"
+#include "fecha.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -41,22 +42,15 @@ bool Reserva::verificarFecha(const string & fechaI,unsigned short int _noches){
 
 void Reserva::mostrar() const {
     cout << "Documento: " << (documento ? *documento : "N/A") << endl;
-    cout << "Fecha de reserva: ";
-    date.mostrar();  // Supongo que Fecha tiene método mostrar()
-    cout << endl;
-
+    cout<<"Fecha de inicio: "<<date.nombreDia()<<","<<date.getDia()<<" de "<<date.nombremes()<<" del "<<date.getAnio()<<endl;
     cout << "Noches: " << noches << endl;
     cout << "Codigo reserva: " << codigo << endl;
     cout << "Codigo alojamiento: " << codigoA << endl;
-    cout << "Metodo de pago: " << (metodoPago ? "Tarjeta" : "Efectivo") << endl;
-
-    cout << "Fecha de pago: ";
-    pago.mostrar();
-    cout << endl;
-
+    cout << "Metodo de pago: " << (metodoPago ? "T.Credito" : "PSE") << endl;
+    cout<<"Fecha de pago: "<<pago.nombreDia()<<","<<pago.getDia()<<" de "<<pago.nombremes()<<" del "<<pago.getAnio()<<endl;
     cout << "Monto: $" << monto << endl;
-    cout << "Comentario: " << comentario << endl;
 }
+
 //verificar comprobante
 void Reserva::comprobante(string fechafin){
     Fecha fin(fechafin);
@@ -66,7 +60,7 @@ void Reserva::comprobante(string fechafin){
     cout<<"Fecha final: "<<fin.nombreDia()<<","<<fin.getDia()<<" de "<<fin.nombremes()<<" del "<<fin.getAnio()<<endl; //agregar
     cout << "Codigo reserva: " << codigo << endl;
     cout << "Codigo alojamiento: " << codigoA << endl;
-    cout << "Metodo de pago: " << (metodoPago ? "TCREDITO" : "PSE") << endl;
+    cout << "Metodo de pago: " << (metodoPago ? "T.CREDITO" : "PSE") << endl;
     cout << "Fecha de pago: ";
     pago.mostrar();
     cout << endl;

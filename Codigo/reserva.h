@@ -1,9 +1,7 @@
 #ifndef RESERVA_H
 #define RESERVA_H
-#include "fecha.h"
-#include "huesped.h"
-#include "Funciones.h"
 #include <string>
+#include "fecha.h"
 using namespace std;
 
 class Huesped;

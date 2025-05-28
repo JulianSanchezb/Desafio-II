@@ -1,8 +1,7 @@
 #ifndef FECHA_H
 #define FECHA_H
-#include "Funciones.h"
-using namespace std;
 #include <string>
+using namespace std;
 
 class Fecha{
 private:
@@ -14,15 +13,15 @@ public:
     Fecha(unsigned short int _dia,unsigned short int _mes,unsigned short int _anio);   //Constructor
     Fecha(string _fecha);
     bool fechaValida();
-    string nombreDia();    //Con la formula de Zeller(con division entera)
+    string nombreDia() const;    //Con la formula de Zeller(con division entera)
     bool bisiesto();
     string sumar_noches(unsigned short int noches);
-    string nombremes();
+    string nombremes() const;
     string mostrar() const;
     //Getters
-    unsigned short int getDia();
-    unsigned short int getMes();
-    unsigned short int getAnio();
+    unsigned short int getDia() const;
+    unsigned short int getMes() const;
+    unsigned short int getAnio() const;
     //Setters
     void setDia(unsigned short int _dia);
     void setMes(unsigned short int _mes);

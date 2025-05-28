@@ -2,7 +2,6 @@
 #define ALOJAMIENTO_H
 #include "anfitrion.h"
 #include "reserva.h"
-#include "Funciones.h"
 #include <string>
 using namespace std;
 
@@ -43,7 +42,7 @@ public:
     string getDireccion();
     unsigned int getPrecio();
     string getAmenidades();
-    Reserva *getReserva(int index);
+    Reserva *getReserva(unsigned short index);
     unsigned short int getCount() const;
 
     //Setters

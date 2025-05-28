@@ -1,5 +1,8 @@
 #include "anfitrion.h"
 #include "alojamiento.h"
+#include "huesped.h"
+#include "Funciones.h"
+#include "FuncionesReserva.h"
 #include <iostream>
 using namespace std;
 
@@ -7,7 +10,7 @@ Anfitrion::Anfitrion(){
     puntuacion = "";
     antiguedad = "";
     documento = "";
-    unsigned int contaAlojamientos = 0;
+    unsigned short int contaAlojamientos = 0;
     for(int i = 0;i < 100;i++){
         alojamientos[i] = nullptr;
     }
@@ -17,28 +20,32 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
     puntuacion = _puntuacion;
     antiguedad = _antiguedad;
     documento = _documento;
-    unsigned int contaAlojamientos = 0;
+    unsigned short int contaAlojamientos = 0;
     for(int i = 0;i < 100;i++){
         alojamientos[i] = nullptr;
     }
 }
 
-
 void Anfitrion::consultaReserva(){
-    for (unsigned int i = 0; i < contaAlojamientos; ++i) {
+    for (unsigned int i = 0; i < contaAlojamientos; ++i){
         if (alojamientos[i] != nullptr) {
+            if(alojamientos[i]->getCount() == 0){
+                cout<<"\nNo tiene reservas activas en alojamiento "<<alojamientos[i]->getCodigo()<<"\n";
+            }
             for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
-                Reserva* reserva = alojamientos[i]->getReserva(j);
-                if (reserva != nullptr){
-                    reserva->mostrar();
+                if (alojamientos[i]->getReserva(j) != nullptr){
+                    (alojamientos[i]->getReserva(j))->mostrar();
                     cout << endl;
                 }
             }
         }
     }
+    cout<<endl;
 }
 
-void Anfitrion::menu(Reserva **reservas,Huesped *huespedes,Alojamiento *alojamientos, unsigned int &tamanoR,unsigned int tamanoH,unsigned int tamanoA){
+void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** reservas,unsigned int &tamanoH, unsigned int &tamanoR, unsigned int &tamanoA){
+    bool bandera;
+    string codigo = "";
     short int decision;
     do{
         cout<<"\n-----Bienvenido, Anfitrion-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
@@ -49,17 +56,36 @@ void Anfitrion::menu(Reserva **reservas,Huesped *huespedes,Alojamiento *alojamie
         cin>>decision;
 
         switch (decision) {
-        case 1:consultaReserva();break;
-        case 2:break;
+        case 1:consultaReserva();
+            break;
+        case 2:
+            bandera = false;
+            do{
+                cout<<"\nIngresa el numero identificador del alojamiento que deseas: "<<endl;
+                cin >>codigo;
+                for (int i = 0; i < contaAlojamientos; ++i) {
+                    if(bandera){break;}
+                    for(unsigned short int j = 0; j < alojamientos[i]->getCount();j++){
+                        if(alojamientos[i]->getReserva(j) != nullptr){
+                            if ((alojamientos[i]->getReserva(j))->getCodigo() == codigo){
+                                bandera =  true; // Encontrado
+                                break;
+                            }
+                        }
+                    }
+                }
+            }while(!bandera);
+            cancelareserva(huespedes,reservas,alojamiento,tamanoH,tamanoR,tamanoA,codigo);
+            break;
         case 3:actualizarHistorico(reservas,tamanoR);
             compactarReservas(reservas,tamanoR);
 
-            asignarReservasA(alojamientos,reservas,tamanoA,tamanoR);
+            asignarReservasA(alojamiento,reservas,tamanoA,tamanoR);
             asignarReservah(huespedes,reservas,tamanoH,tamanoR);
 
-            for(unsigned int i = 0;i < ((tamanoA > tamanoH) ? tamanoA:tamanoH);i++){
+            for(unsigned int i = 0;i < ((tamanoA >= tamanoH) ? tamanoA:tamanoH);i++){
                 if(i < tamanoA){
-                    alojamientos[i].actualizarReservas();
+                    alojamiento[i].actualizarReservas();
                 }
                 if(i < tamanoH){
                     huespedes[i].actualizarReservas();
@@ -102,7 +128,7 @@ string* Anfitrion::getDocumento() {
     return &documento;
 }
 
-Alojamiento* Anfitrion::getAlojamiento(int index) {
+Alojamiento* Anfitrion::getAlojamiento(unsigned short int index) {
     if (index >= 0 && index < 100 && index < contaAlojamientos) {
         return alojamientos[index];
     }

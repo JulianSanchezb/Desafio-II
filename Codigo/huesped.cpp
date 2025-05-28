@@ -1,5 +1,7 @@
 #include "huesped.h"
+#include "reserva.h"
 #include "Funciones.h"
+#include "FuncionesReserva.h"
 #include <iostream>
 
 
@@ -23,11 +25,10 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
     }
 }
 
+void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reservas, unsigned int &tamano2,
+                   unsigned int &contR, unsigned int &contA){
 
-
-void Huesped::menu(Huesped *huespedes, Anfitrion *anfitriones, Alojamiento* alojamientos, Reserva** reservas,
-                   unsigned int &tamano1, unsigned int &tamano2, unsigned int &contR, unsigned int &contA){
-
+    bool bandera;
     unsigned short int decision;
     string codigo;
     do{
@@ -37,11 +38,23 @@ void Huesped::menu(Huesped *huespedes, Anfitrion *anfitriones, Alojamiento* aloj
         cout<<"3.salir"<<endl;
         cin>>decision;
         switch (decision) {
-        case 1:reserva(alojamientos,reservas,tamano1,tamano2,documento);break;
+        case 1:reserva(alojamientos,reservas,huespedes,contA,contR,tamano2,documento);break;
         case 2:
-            cout<<"Ingrese el codigo de la reserva que sale en su comprobante: "<<endl;
-            cin>>codigo;
-            cancelareserva(huespedes,anfitriones,reservas,alojamientos,decision,tamano1,tamano2,contR,contA,documento,codigo);
+            do{
+                bandera = false;
+                cout<<"RECUERDA: en tu comprobante hay un numero identificador 100001,100002,..."<<endl;
+                cout<<"\nIngresa el numero identificador del reserva que deseas: "<<endl;
+                cin >>codigo;
+                for (int i = 0; i < count; ++i) {
+                    if(getReserva(i) != nullptr){
+                        if (getReserva(i)->getCodigo() == codigo){
+                            bandera =  true; // Encontrado
+                            break;
+                        }
+                    }
+                }
+            }while(!bandera);
+            cancelareserva(huespedes,reservas,alojamientos,tamano2,contA,contR,codigo);
             break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;break;
         default:
@@ -95,8 +108,9 @@ void Huesped::actualizarReservas(){
             c++;
         }else{
             reservas[i] = nullptr;
+            c = 0;
         }
-        if(c == 10){
+        if(c == 20){
             break;
         }
     }

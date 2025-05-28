@@ -40,7 +40,6 @@ Alojamiento::Alojamiento(const string& _nombre, const string& _codigo, string* _
 
 }
 
-
 bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio){
     string aux,ubi;
     aux = ubicacion;
@@ -52,15 +51,13 @@ bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int no
         return false;
     }
     for(unsigned short int i=0; i<count ;i++){
-        cout<<"anda"<<endl;
         if (reservas[i] != nullptr) {
             if(!(reservas[i]->verificarFecha(fechaInicio,noches))){
                 return false;
             }
         }
     }
-    cout<<"bobo"<<endl;
-    imprimir();
+
     return true;
 }
 
@@ -68,18 +65,15 @@ bool Alojamiento::filtro(float puntuacionusu, unsigned int coste,unsigned short 
     float puntuacionanfi;
     puntuacionanfi = stof(*puntuacion);
     if(decision == 0){
-        if((puntuacionanfi>= puntuacionusu)&&(precio<= coste)){
-            imprimir();
+        if((puntuacionanfi >= puntuacionusu) && (precio <= coste)){
             return true;
         }
     }else if(decision == 1){
         if(puntuacionanfi>= puntuacionusu){
-            imprimir();
             return true;
         }
-    }else{
+    }else if(decision == 2){
         if(precio<= coste){
-            imprimir();
             return true;
         }
     }
@@ -91,6 +85,7 @@ void Alojamiento::imprimir() const {
     cout << "Nombre: " << nombre << endl;
     cout << "Codigo: " << codigo << endl;
     cout << "Documento del propietario: " << (documento ? *documento : "N/A") << endl;
+    cout << "Puntuacion: "<<*puntuacion<<endl;
     cout << "Tipo: " << (tipo ? "Casa" : "Departamento") << endl;
     cout << "Ubicacion: " << ubicacion << endl;
     cout << "Direccion: " << direccion << endl;
@@ -112,13 +107,12 @@ void Alojamiento::actualizarReservas(){
     unsigned short int c = 0;
     for(unsigned short int i = count;i < 365; i++){
         if(reservas[i] == nullptr){
-
             c++;
         }else{
             reservas[i] = nullptr;
-
+            c = 0;
         }
-        if(c == 10){
+        if(c == 20){
             break;
         }
     }
@@ -157,8 +151,8 @@ string Alojamiento::getAmenidades()  {
 }
 
 
-Reserva* Alojamiento::getReserva(int index) {
-    if (index >= 0 && index < 20 && index < count) {
+Reserva* Alojamiento::getReserva(unsigned short int index) {
+    if (index >= 0 && index < 365 && index < count) {
         return reservas[index];
     }
     return nullptr;
