@@ -14,7 +14,8 @@ Reserva::Reserva()
     metodoPago(false),
     pago(),        // Llama al constructor por defecto de Fecha
     monto(0),
-    comentario("") {
+    comentario("")
+    {
 }
 
 Reserva::Reserva(string* _documento,string _fechaI,unsigned short int _noches,string _codigo, string _codigoA,bool _metodoPago,string _fechaP,unsigned int _monto)
@@ -27,8 +28,18 @@ Reserva::Reserva(string* _documento,string _fechaI,unsigned short int _noches,st
     pago(_fechaP),        // Llama al constructor con string de Fecha
     monto(_monto),
     comentario("") {
+    contador++;
 }
 
+Reserva::~Reserva() {
+    if (documento != nullptr) {
+        delete documento;
+        documento = nullptr;
+        contador--;
+    }
+}
+
+int Reserva::contador = 0;
 
 bool Reserva::verificarFecha(const string & fechaI,unsigned short int _noches){
     Fecha nuevaFecha(fechaI);
@@ -147,4 +158,8 @@ void Reserva::setComentario(const string& _comentario) {
     } else {
         comentario = _comentario;
     }
+}
+
+int Reserva::getContador() {
+    return contador;
 }

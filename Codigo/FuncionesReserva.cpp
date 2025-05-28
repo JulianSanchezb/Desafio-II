@@ -49,9 +49,10 @@ bool Sintaxisvalida(const string& municipio) {
     return true;
 }
 
-bool municipioexiste(Alojamiento* alojamientos,unsigned int &tamano,string &municipio){
+bool municipioexiste(Alojamiento* alojamientos,unsigned int &tamano,string &municipio,unsigned int &contador){
     string departamento,auxmun,aux;
     for(unsigned int i = 0; i<tamano;i++){
+        contador++;
         aux = alojamientos[i].getUbicacion();
         stringstream iss(aux);
 
@@ -66,10 +67,11 @@ bool municipioexiste(Alojamiento* alojamientos,unsigned int &tamano,string &muni
     return false;
 }
 
-bool huespedDisponible(Huesped* huespedes, unsigned int tamano, const string& documento, const string& fecha, unsigned short int noches) {
+bool huespedDisponible(Huesped* huespedes, unsigned int tamano, const string& documento, const string& fecha, unsigned short int noches,unsigned int &contador) {
     for (unsigned int i = 0; i < tamano; ++i) {
+        contador++;
         if (*(huespedes[i].getDocumento()) == documento) {
-            return huespedes[i].verificar_valides(fecha, noches);
+            return huespedes[i].verificar_valides(fecha, noches,contador);
         }
     }
     return false; // huésped no encontrado o no disponible
@@ -126,7 +128,7 @@ bool usofiltro(Alojamiento& alojamientos,unsigned int precio,float puntuacion,un
 }
 
 void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
-             unsigned int &tamano1, unsigned int &tamano2,unsigned int &tamanoH,string &documento){
+             unsigned int &tamano1, unsigned int &tamano2,unsigned int &tamanoH,string &documento,unsigned int &contadoriteraciones){
 
     string fecha,municipio,codigo;//veroicar el tamano del arreglo
     unsigned short int noches,decision,contador = 200,valor;
@@ -141,7 +143,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
         cout<<"\nPorfavor ingresar un municipio: "<<endl;
         cin>>municipio;
         municipio = aMinuscula(municipio);
-    }while(!Sintaxisvalida(municipio)||!municipioexiste(alojamientos,tamano1,municipio) );
+    }while(!Sintaxisvalida(municipio)||!municipioexiste(alojamientos,tamano1,municipio,contadoriteraciones) );
 
     cout<<"\nPorfavor ingresar una cantidad de noches: "<<endl;
     cin>> noches;
@@ -150,14 +152,21 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
         cout<<"\nPorfavor ingresar una fecha en formato dia/mes/anio: "<<endl;
         cin>>fecha;
         nuevfecha = Fecha(fecha);
-        bandera = huespedDisponible(huespedes,tamanoH,documento,fecha,noches);
+        bandera = huespedDisponible(huespedes,tamanoH,documento,fecha,noches,contadoriteraciones);
+        string fechah = obtenerFechaActual();
+        Fecha hoy(fechah);
         if(!nuevfecha.fechaValida() ||  !bandera){
             cout<<"Fecha invalida por formato o tiene una reserva activa en dicha fecha"<<endl;
+        }
+        if(nuevfecha < hoy){
+            cout<<"Fecha invalida debe ser mayor a la fecha de hoy: "<<fechah<<endl;
+            bandera = false;
         }
     }while(!nuevfecha.fechaValida() ||  !bandera);
 
     for(unsigned int i = 0; i < tamano1;i++){
-        if(alojamientos[i].disponibilidad(fecha,noches,municipio)){
+        contadoriteraciones++;
+        if(alojamientos[i].disponibilidad(fecha,noches,municipio,contadoriteraciones)){
             alojamientos[i].imprimir();
             cout<<"\n-----El alojamiento corresponde al ------ \n==========="<<alojamientos[i].getCodigo()<<"============"<<endl;
             arr[contador] = alojamientos[i].getCodigo();
@@ -171,6 +180,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
     }
     string* arr2 = new string[contador];
     for (int i = 0; i < contador; ++i) {
+        contadoriteraciones ++;
         arr2[i] = arr[i];
     }
     delete[] arr;
@@ -227,7 +237,8 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
         arr = new string[contador];
         contador = 0;
         for(unsigned int i = 0; i < tamano1;i++){
-            if(alojamientos[i].disponibilidad(fecha,noches,municipio)){//cambiar en arr i agregar solo los indices
+            contadoriteraciones ++;
+            if(alojamientos[i].disponibilidad(fecha,noches,municipio,contadoriteraciones)){//cambiar en arr i agregar solo los indices
                 if(usofiltro(alojamientos[i],precio,puntuacion,decision)){
                     arr[contador] = alojamientos[i].getCodigo();
                     alojamientos[i].imprimir();
@@ -243,6 +254,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
         }
         string* arr2 = new string[contador];
         for (int i = 0; i < contador; ++i) {
+            contadoriteraciones ++;
             arr2[i] = arr[i];
         }
         delete[] arr;
@@ -264,6 +276,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
     delete[] arr;
     contador = 0;
     for(unsigned int i = 0;i<tamano1;i++){
+        contadoriteraciones ++;
         if(alojamientos[i].getCodigo() == codigo){
             contador = i;
         }
@@ -280,13 +293,15 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
     cout<<"\nDesea agregar un comentario/pregunta al anfitrion? \n1.para si \n2.para no"<<endl;
     cin >> decision;
     if(decision == 1){
-        comentario(codigoRe);
+        comentario(codigo);
     }
 
     reservas[tamano2] = new Reserva(ptrdocumento, fecha, noches,codigoRe,codigo,valor,obtenerFechaActual(),monto);
 
-    alojamientos[contador].setReserva(reservas[tamano2]);        // Agrega la reserva al alojamiento
+    alojamientos[contador].setReserva(reservas[tamano2]);// Agrega la reserva al alojamiento
+
     reservas[tamano2 ]->comprobante(nuevfecha.sumar_noches(noches));
+
     tamano2++;
 }
 

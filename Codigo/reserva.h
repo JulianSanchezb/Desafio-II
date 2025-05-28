@@ -17,11 +17,12 @@ private:
     Fecha pago;
     unsigned int monto;
     string comentario;
+    static int contador;
 public:
     Reserva();  //Constructor por defecto
     Reserva(string* _documento,string _fechaI,unsigned short int _noches,string _codigo,
             string _codigoA,bool _metodoPago,string _fechaP,unsigned int _monto);       //Constructor
-
+    ~Reserva(); // destructor
     bool verificarFecha(const string &fechaI, unsigned short int noches);
     int valor_reserva();//verificar me parece innecesario
     void mostrar() const; //pedirla
@@ -38,6 +39,7 @@ public:
     Fecha getPago();
     unsigned int getMonto();
     string getComentario();
+    static int getContador();
 
     // Setters
     void setDocumento(string *_documento);   //Hay que verificarlos
@@ -49,6 +51,8 @@ public:
     void setPago(const Fecha& _pago);
     void setMonto(unsigned int _monto);
     void setComentario(const string& _comentario);
+
+
 };
 
 #endif // RESERVA_H

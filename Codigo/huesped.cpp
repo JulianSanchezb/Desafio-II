@@ -23,7 +23,9 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
     for(int i = 0;i < 365;i++){
         reservas[i] = nullptr;
     }
+    contador++;
 }
+int Huesped::contador = 0;
 
 void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reservas, unsigned int &tamano2,
                    unsigned int &contR, unsigned int &contA){
@@ -38,7 +40,10 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
         cout<<"3.salir"<<endl;
         cin>>decision;
         switch (decision) {
-        case 1:reserva(alojamientos,reservas,huespedes,contA,contR,tamano2,documento);break;
+        case 1:reserva(alojamientos,reservas,huespedes,contA,contR,tamano2,documento,contador);
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            contador = 0;
+                break;
         case 2:
             do{
                 bandera = false;
@@ -46,6 +51,7 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
                 cout<<"\nIngresa el numero identificador del reserva que deseas: "<<endl;
                 cin >>codigo;
                 for (int i = 0; i < count; ++i) {
+                    contador++;
                     if(getReserva(i) != nullptr){
                         if (getReserva(i)->getCodigo() == codigo){
                             bandera =  true; // Encontrado
@@ -55,6 +61,8 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
                 }
             }while(!bandera);
             cancelareserva(huespedes,reservas,alojamientos,tamano2,contR,contA,codigo,contador);
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            contador = 0;
             break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;break;
         default:
@@ -63,11 +71,12 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
     }while((decision>3) || (decision<0));
 }
 
-bool Huesped::verificar_valides(string fechaI,unsigned short int noches){
+bool Huesped::verificar_valides(string fechaI, unsigned short int noches, unsigned int &contador){
     Fecha fechainiI(fechaI),fechafinalI,fechainicialo,fechafinalo;
     unsigned short int nochesI;
     fechafinalI = fechainiI.sumar_noches(noches);
     for(unsigned short int i = 0;i <365;i++){//verificar si se puede crear un contador para las reservas
+        contador++;
         if (reservas[i] != nullptr){
             fechainicialo = reservas[i]->getDate();
             nochesI = reservas[i]->getNoches();
@@ -86,24 +95,11 @@ void Huesped:: cancelReserva(unsigned int index) {
     }
 }
 
-void Huesped::imprimir() const {
-    cout << "Documento: " << documento << endl;
-    cout << "Antigüedad: " << antiguedad << endl;
-    cout << "Puntuación: " << puntuacion << endl;
-    cout << "Cantidad de reservas: " << count << endl;
-
-    for (unsigned int i = 0; i < count; ++i) {
-        if (reservas[i] != nullptr) {
-            cout << "Reserva #" << i + 1 << ":" << endl;
-            reservas[i]->mostrar();
-            cout << "-----------------------------" << endl;
-        }
-    }
-}
 
 void Huesped::actualizarReservas(unsigned int &contador){
     unsigned short int c = 0;
     for(unsigned short int i = count;i < 365; i++){
+        contador++;
         if(reservas[i] == nullptr){
             c++;
         }else{
@@ -165,4 +161,8 @@ void Huesped::setReserva(Reserva *_reserva) {
 
 void Huesped::setCount(unsigned short int _count){
     count = _count;
+}
+
+int Huesped::getContador() {
+    return contador;
 }
