@@ -24,7 +24,9 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
     for(int i = 0;i < 100;i++){
         alojamientos[i] = nullptr;
     }
+    contador++;
 }
+int Anfitrion::contador = 0;
 
 void Anfitrion::consultaReserva(unsigned int &contador){
     for (unsigned int i = 0; i < contaAlojamientos; ++i){
@@ -111,19 +113,6 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
 
 }
 
-void Anfitrion::imprimir() const {
-    cout << "=== Anfitrion ===" << endl;
-    cout << "Documento: " << documento << endl;
-    cout << "Puntuacion: " << puntuacion << endl;
-    cout << "Antigüedad: " << antiguedad << endl;
-    cout << "Cantidad de alojamientos: " << contaAlojamientos << endl;
-    for (unsigned int i = 0; i < contaAlojamientos; ++i) {
-        if (alojamientos[i]) {
-            cout << "\nAlojamiento #" << i + 1 << ":" << endl;
-            alojamientos[i]->imprimir();  // asumiendo que Alojamiento tiene imprimir()
-        }
-    }
-}
 
 // Getters
 string *Anfitrion::getPuntuacion() {
@@ -163,4 +152,8 @@ void Anfitrion::setDocumento(const string& _documento) {
 void Anfitrion::setAlojamiento(Alojamiento *_alojamiento) {
     alojamientos[contaAlojamientos] = _alojamiento;
     contaAlojamientos++;
+}
+
+int Anfitrion::getContador() {
+    return contador;
 }

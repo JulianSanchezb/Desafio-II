@@ -18,13 +18,14 @@ private:
     string amenidades;
     Reserva *reservas[365];
     unsigned short int count = 0;
+    static int contador;
 public:
     Alojamiento();//Constructor por defecto
     Alojamiento(const string& _nombre, const string& _codigo, string* _documento, string *_puntuacion,
                 bool _tipo, const string& _ubicacion, const string& _direccion,
                 unsigned int _precio, const string& _amenidades);
     //
-    bool disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio);
+    bool disponibilidad(const string& fechaInicio, unsigned short int noches, const string& municipio, unsigned int &contador);
 
     bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
     void imprimir() const;
@@ -44,6 +45,7 @@ public:
     string getAmenidades();
     Reserva *getReserva(unsigned short index);
     unsigned short int getCount() const;
+    static int getContador();
 
     //Setters
     void setNombre(const string& _nombre);

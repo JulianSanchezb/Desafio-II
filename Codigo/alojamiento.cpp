@@ -37,10 +37,13 @@ Alojamiento::Alojamiento(const string& _nombre, const string& _codigo, string* _
     for (int i = 0; i < 365; i++) {
         reservas[i] = nullptr;
     }
+    contador++;
 
 }
 
-bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio){
+int Alojamiento::contador = 0;
+
+bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int noches, const string& municipio,unsigned int &contador){
     string aux,ubi;
     aux = ubicacion;
     stringstream iss(aux);
@@ -51,6 +54,7 @@ bool Alojamiento::disponibilidad(const string& fechaInicio,unsigned short int no
         return false;
     }
     for(unsigned short int i=0; i<count ;i++){
+        contador++;
         if (reservas[i] != nullptr) {
             if(!(reservas[i]->verificarFecha(fechaInicio,noches))){
                 return false;
@@ -208,4 +212,8 @@ void Alojamiento::setReserva(Reserva *_reserva) {
 
 void Alojamiento::setCount(unsigned short int _count){
     count = _count;
+}
+
+int Alojamiento::getContador() {
+    return contador;
 }

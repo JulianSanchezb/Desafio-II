@@ -14,14 +14,14 @@ private:
     string documento;
     unsigned short int count = 0;
     Reserva *reservas[365];
+    static int contador;
 public:
     Huesped(); // Constructor por defecto
     Huesped(string _puntuacion, string _antiguedad, string _documento);
     void menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reservas, unsigned int &tamano2,
               unsigned int &contR, unsigned int &contA);
     //opcion de metodo de verificar si no tiene reserva en la fecha indicada
-    bool verificar_valides(string fechaI,unsigned short int noche);
-    void imprimir() const;
+    bool verificar_valides(string fechaI, unsigned short int noche, unsigned int &contador);
 
     void cancelReserva(unsigned int index);
 
@@ -33,8 +33,8 @@ public:
     string* getDocumento();
     const string* getDocumento() const;
     Reserva *getReserva(int index);
-
     unsigned short int getCount();
+    static int getContador();
 
     // Setters
     void setPuntuacion(const string& _puntuacion);

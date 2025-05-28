@@ -22,6 +22,7 @@ void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned
             doc = *(reservas[i]->getDocumento());
             puntuacion = "N/A";
             antiguedad = "N/A";
+
             for (unsigned int j = 0; j < conthu; j++) {
                 if (*(huespedes[j].getDocumento()) == doc) {
                     puntuacion = (huespedes[j].getPuntuacion());
