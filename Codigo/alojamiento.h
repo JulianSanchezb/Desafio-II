@@ -29,9 +29,9 @@ public:
     bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
     void imprimir() const;
 
-    void cancelareserva(const string& codigo);
+    void cancelareserva(const string& codigo, unsigned int &contador);
 
-    void actualizarReservas();
+    void actualizarReservas(unsigned int &contador);
 
     //Getters
     string getNombre();

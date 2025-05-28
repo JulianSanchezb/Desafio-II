@@ -25,7 +25,7 @@ public:
 
     void cancelReserva(unsigned int index);
 
-    void actualizarReservas();
+    void actualizarReservas(unsigned int &contador);
 
     // Getters
     string getPuntuacion();

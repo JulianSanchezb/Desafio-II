@@ -27,7 +27,7 @@ bool usofiltro(Alojamiento& alojamientos,unsigned int precio,float puntuacion,un
 void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
              unsigned int &tamano1, unsigned int &tamano2,unsigned int &tamanoH,string &documento);
 
-void cancelareserva(Huesped *huespedes,Reserva **reservas,Alojamiento* alojamientos,unsigned int &conthu,unsigned int &contA,
-                    unsigned int &contR,string &codigo);
+void cancelareserva(Huesped *huespedes, Reserva **reservas, Alojamiento* alojamientos, unsigned int &conthu, unsigned int &contA,
+                    unsigned int &contR, string &codigo, unsigned int &contador);
 
 #endif // FUNCIONESRESERVA_H

@@ -17,7 +17,7 @@ private:
 public:
     Anfitrion();    //Constructor por defecto
     Anfitrion(string _puntuacion, string _antiguedad, string _documento);
-    void consultaReserva();
+    void consultaReserva(unsigned int &contador);
     void menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reservas, unsigned int &tamanoH, unsigned int &tamanoR,unsigned int &tamanoA);
     void imprimir() const;
     //Getters

@@ -26,13 +26,14 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
     }
 }
 
-void Anfitrion::consultaReserva(){
+void Anfitrion::consultaReserva(unsigned int &contador){
     for (unsigned int i = 0; i < contaAlojamientos; ++i){
         if (alojamientos[i] != nullptr) {
             if(alojamientos[i]->getCount() == 0){
                 cout<<"\nNo tiene reservas activas en alojamiento "<<alojamientos[i]->getCodigo()<<"\n";
             }
             for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
+                contador++;
                 if (alojamientos[i]->getReserva(j) != nullptr){
                     (alojamientos[i]->getReserva(j))->mostrar();
                     cout << endl;
@@ -47,6 +48,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
     bool bandera;
     string codigo = "";
     short int decision;
+    unsigned int contador = 0;
     do{
         cout<<"\n-----Bienvenido, Anfitrion-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Consultar reservas"<<endl;
@@ -56,16 +58,19 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
         cin>>decision;
 
         switch (decision) {
-        case 1:consultaReserva();
+        case 1:consultaReserva(contador);
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            contador = 0;
             break;
         case 2:
             bandera = false;
             do{
-                cout<<"\nIngresa el numero identificador del alojamiento que deseas: "<<endl;
+                cout<<"\nIngrese el numero identificador de la reserva que desea cancelar: "<<endl;
                 cin >>codigo;
                 for (int i = 0; i < contaAlojamientos; ++i) {
                     if(bandera){break;}
                     for(unsigned short int j = 0; j < alojamientos[i]->getCount();j++){
+                        contador++;
                         if(alojamientos[i]->getReserva(j) != nullptr){
                             if ((alojamientos[i]->getReserva(j))->getCodigo() == codigo){
                                 bandera =  true; // Encontrado
@@ -75,22 +80,27 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
                     }
                 }
             }while(!bandera);
-            cancelareserva(huespedes,reservas,alojamiento,tamanoH,tamanoR,tamanoA,codigo);
+            cancelareserva(huespedes,reservas,alojamiento,tamanoH,tamanoR,tamanoA,codigo,contador);
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            contador = 0;
             break;
-        case 3:actualizarHistorico(reservas,tamanoR);
-            compactarReservas(reservas,tamanoR);
+        case 3:actualizarHistorico(reservas,tamanoR,contador);
+            compactarReservas(reservas,tamanoR,contador);
 
-            asignarReservasA(alojamiento,reservas,tamanoA,tamanoR);
-            asignarReservah(huespedes,reservas,tamanoH,tamanoR);
+            asignarReservasA(alojamiento,reservas,tamanoA,tamanoR,contador);
+            asignarReservah(huespedes,reservas,tamanoH,tamanoR,contador);
 
             for(unsigned int i = 0;i < ((tamanoA >= tamanoH) ? tamanoA:tamanoH);i++){
+                contador++;
                 if(i < tamanoA){
-                    alojamiento[i].actualizarReservas();
+                    alojamiento[i].actualizarReservas(contador);
                 }
                 if(i < tamanoH){
-                    huespedes[i].actualizarReservas();
+                    huespedes[i].actualizarReservas(contador);
                 }
             }
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            contador = 0;
             break;
         case 4:cout << "Saliendo del menu..." << endl;break;
         default:

@@ -94,8 +94,9 @@ void Alojamiento::imprimir() const {
 }
 
 
-void Alojamiento::cancelareserva(const string& codigo) {
+void Alojamiento::cancelareserva(const string& codigo,unsigned int &contador) {
     for (unsigned short int i = 0; i < count; ++i) {
+        contador++;
         if (reservas[i] != nullptr && reservas[i]->getCodigo() == codigo) {
             reservas[i] = nullptr;
             return;
@@ -103,9 +104,10 @@ void Alojamiento::cancelareserva(const string& codigo) {
     }
 }
 
-void Alojamiento::actualizarReservas(){
+void Alojamiento::actualizarReservas(unsigned int &contador){
     unsigned short int c = 0;
     for(unsigned short int i = count;i < 365; i++){
+        contador++;
         if(reservas[i] == nullptr){
             c++;
         }else{

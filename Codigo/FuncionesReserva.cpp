@@ -291,35 +291,43 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
 }
 
 void cancelareserva(Huesped *huespedes,Reserva **reservas,Alojamiento* alojamientos,unsigned int &conthu,unsigned int &contR,
-                    unsigned int &contA,string &codigo){
+                    unsigned int &contA,string &codigo,unsigned int &contador){
+    string codAloj = "";
+    bool bandera = false;
+    unsigned int size = contR;
+    if (contA > size) size = contA;
 
-       for(unsigned int i = 0; i < conthu; i++) {
-           Huesped& h = huespedes[i];
-           for (unsigned int j = 0; j < conthu; j++) {
-               Reserva* r = h.getReserva(j);
-               if (r != nullptr && r->getCodigo() == codigo) {
-                   // Cancelar en el huésped
-                   h.cancelReserva(j);  // Debes implementar este método
-                   // Cancelar en alojamiento asociado
-                   string codAloj = r->getCodigoA(); // código del alojamiento
-                   for (unsigned int a = 0; a < contA; a++) {
-                       if (alojamientos[a].getCodigo() == codAloj) {
-                           alojamientos[a].cancelareserva(codigo);
-                           break;
-                       }
-                   }
-                   // Cancelar en arreglo global
-                   for (unsigned int m = 0; m < contR; m++) {
-                       if (reservas[m] != nullptr && reservas[m]->getCodigo() == codigo) {
-                           delete reservas[m];
-                           reservas[m] = nullptr;
-                           break;
-                       }
-                   }
-                   cout << "Reserva cancelada con exito.\n";
-                   return;
-               }
-           }
-       }
-
+    for(unsigned int i = 0; i < conthu; i++) {
+        Huesped& h = huespedes[i];
+        for(unsigned int j = 0;j < h.getCount();j++){
+            contador++;
+            Reserva* r = h.getReserva(j);
+            if (r != nullptr && r->getCodigo() == codigo){
+                // Cancelar en el huésped
+                h.cancelReserva(j);
+                // Cancelar en alojamiento asociado
+                codAloj = r->getCodigoA(); // código del alojamiento
+                bandera  = true;
+                break;
+            }
+        }
+        if(bandera) {break;}
+    }
+    for(unsigned int i = 0;i < size;i++){
+        contador++;
+        if(i < contA){
+            if (alojamientos[i].getCodigo() == codAloj) {
+                alojamientos[i].cancelareserva(codigo,contador);
+            }
+        }
+        // Cancelar en arreglo global
+        if(i < contR){
+            if (reservas[i] != nullptr && reservas[i]->getCodigo() == codigo) {
+                delete reservas[i];
+                reservas[i] = nullptr;
+            }
+        }
+    }
+    cout << "\nReserva cancelada con exito.\n";
+    return;
 }

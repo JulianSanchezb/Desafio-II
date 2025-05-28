@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    unsigned int alojam = 0,anfitri = 0,huesp = 0, reser = 0;
+    unsigned int alojam = 0,anfitri = 0,huesp = 0, reser = 0,contador = 0;
 
     cantidadLineas("Alojamientos.txt", alojam, anfitri);
 
@@ -20,7 +20,7 @@ int main() {
     Reserva **reservas = new Reserva*[reser+50];
 
     crearHuespedes(reservas, huespedes);
-    asignarReservasA(alojamientos,reservas,alojam,reser);
+    asignarReservasA(alojamientos,reservas,alojam,reser,contador);
 
     ingresar_sistema(huespedes,anfitriones,alojamientos,reservas,anfitri,huesp,reser,alojam);
 

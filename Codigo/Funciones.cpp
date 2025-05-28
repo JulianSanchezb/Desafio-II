@@ -20,7 +20,6 @@ void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned
     for (unsigned int i = 0; i < contR; i++) {
         if (reservas[i] != nullptr) {
             doc = *(reservas[i]->getDocumento());
-
             puntuacion = "N/A";
             antiguedad = "N/A";
             for (unsigned int j = 0; j < conthu; j++) {
@@ -224,24 +223,24 @@ void crearHuespedes(Reserva** reservas, Huesped* huespedes){
     archivo.close();
 }
 
-void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
+void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2,unsigned int &contador){
     for(unsigned int i = 0;i < tamano1;i++){
         for(unsigned int j = 0;j < tamano2;j++ ){
+            contador++;
             if(j == 0){
                 alojamientos[i].setCount(0);
             }
             if(alojamientos[i].getCodigo() == reservas[j]->getCodigoA()){
                 alojamientos[i].setReserva(reservas[j]);
             }
-
         }
     }
 }
 
-void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2){
-
+void asignarReservah(Huesped* huespedes, Reserva** reservas, unsigned int &tamano1, unsigned int &tamano2, unsigned int &contador){
     for(unsigned int i = 0;i < tamano1;i++){
         for(unsigned int j = 0;j < tamano2;j++ ){
+            contador++;
             if(j == 0){
                 huespedes[i].setCount(0);
             }
@@ -252,17 +251,20 @@ void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1
     }
 }
 
-void actualizarHistorico(Reserva **reservas,unsigned int &tamano){
+void actualizarHistorico(Reserva **reservas,unsigned int &tamano,unsigned int &contador){
     Fecha fechai,fechaCorte;
     string fecha;
     unsigned int indice = 0;
+
     for(unsigned int i = 0;i < tamano;i++){
+        contador++;
         if(reservas[i]){
             fechai = reservas[i]->getDate();
             indice = i;
             break;
         }
     }
+
     do{
         do{
             cout<<"\nIngrese la fecha de corte teniendo en cuenta las que hay activas en el momento \nLa fecha minima es: "<<fechai.mostrar();
@@ -285,6 +287,7 @@ void actualizarHistorico(Reserva **reservas,unsigned int &tamano){
     }
 
     for(unsigned int i = indice;i < tamano;i++){
+        contador++;
         if(reservas[i]){
             if(reservas[i]->getDate() < fechaCorte){
                 archivo <<reservas[i]->getCodigo()<<" "<<reservas[i]->getCodigoA()<<" "<<reservas[i]->getDocumentoValor()<<" "
@@ -301,10 +304,10 @@ void actualizarHistorico(Reserva **reservas,unsigned int &tamano){
     archivo.close();
 }
 
-void compactarReservas(Reserva** reservas, unsigned int& tamano) {
+void compactarReservas(Reserva** reservas, unsigned int& tamano,unsigned int &contador) {
     unsigned int nuevaPos = 0;
-
     for (unsigned int i = 0; i < tamano; ++i) {
+        contador++;
         if (reservas[i] != nullptr) {
             if (i != nuevaPos) {
                 reservas[nuevaPos] = reservas[i];

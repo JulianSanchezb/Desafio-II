@@ -20,13 +20,13 @@ void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones);
 
 void crearHuespedes(Reserva** reservas, Huesped* huespedes);
 
-void asignarReservasA(Alojamiento* alojamientos,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2);
+void asignarReservasA(Alojamiento* alojamientos, Reserva** reservas, unsigned int &tamano1, unsigned int &tamano2, unsigned int &contador);
 
-void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2);
+void asignarReservah(Huesped* huespedes,Reserva** reservas,unsigned int &tamano1, unsigned int &tamano2,unsigned int &contador);
 
-void actualizarHistorico(Reserva **reservas, unsigned int &tamano);
+void actualizarHistorico(Reserva **reservas, unsigned int &tamano, unsigned int &contador);
 
-void compactarReservas(Reserva** reservas, unsigned int& tamano);
+void compactarReservas(Reserva** reservas, unsigned int& tamano, unsigned int &contador);
 
 bool usofiltro(Alojamiento &alojamientos, unsigned int precio, float puntuacion, unsigned short decision);
 

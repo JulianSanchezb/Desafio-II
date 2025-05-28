@@ -27,7 +27,7 @@ Huesped::Huesped(string _puntuacion, string _antiguedad,string _documento){
 
 void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reservas, unsigned int &tamano2,
                    unsigned int &contR, unsigned int &contA){
-
+    unsigned int contador = 0;
     bool bandera;
     unsigned short int decision;
     string codigo;
@@ -54,7 +54,7 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
                     }
                 }
             }while(!bandera);
-            cancelareserva(huespedes,reservas,alojamientos,tamano2,contA,contR,codigo);
+            cancelareserva(huespedes,reservas,alojamientos,tamano2,contR,contA,codigo,contador);
             break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;break;
         default:
@@ -101,7 +101,7 @@ void Huesped::imprimir() const {
     }
 }
 
-void Huesped::actualizarReservas(){
+void Huesped::actualizarReservas(unsigned int &contador){
     unsigned short int c = 0;
     for(unsigned short int i = count;i < 365; i++){
         if(reservas[i] == nullptr){
