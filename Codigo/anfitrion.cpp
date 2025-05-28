@@ -35,6 +35,7 @@ void Anfitrion::consultaReserva(unsigned int &contador){
             for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
                 contador++;
                 if (alojamientos[i]->getReserva(j) != nullptr){
+
                     (alojamientos[i]->getReserva(j))->mostrar();
                     cout << endl;
                 }
@@ -59,7 +60,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
 
         switch (decision) {
         case 1:consultaReserva(contador);
-            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n\n";
             contador = 0;
             break;
         case 2:
@@ -81,7 +82,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
                 }
             }while(!bandera);
             cancelareserva(huespedes,reservas,alojamiento,tamanoH,tamanoR,tamanoA,codigo,contador);
-            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n\n";
             contador = 0;
             break;
         case 3:actualizarHistorico(reservas,tamanoR,contador);
@@ -102,7 +103,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
             contador = 0;
             break;
-        case 4:cout << "Saliendo del menu..." << endl;break;
+        case 4:cout << "Saliendo del menu..." << endl;return;
         default:
             cout<<"\n!!!OPCION INVALIDA¡¡¡\n";
         }
