@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned int contR, unsigned int conthu){
+void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned int contR, unsigned int conthu,unsigned int &contador){
     string puntuacion, antiguedad,doc;
     ofstream archivo("Reservas.txt");
     if(!archivo){
@@ -24,6 +24,7 @@ void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned
             antiguedad = "N/A";
 
             for (unsigned int j = 0; j < conthu; j++) {
+                contador++;
                 if (*(huespedes[j].getDocumento()) == doc) {
                     puntuacion = (huespedes[j].getPuntuacion());
                     antiguedad = (huespedes[j].getAntiguedad());
@@ -43,12 +44,11 @@ void actualizarpermanentereserva(Reserva **reservas,Huesped* huespedes, unsigned
         }
     }
     archivo.close();
-
 }
 
 void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alojamientos,Reserva **reservas,unsigned int &contan,unsigned int &conthu,unsigned int &contR,unsigned int &contA){
     short int decision;
-
+    unsigned int contador = 0;
     bool bandera = false;
     string documento;
     do{
@@ -63,28 +63,38 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
             cout<<"\nIngrese el documento del anfitrion: "<<endl;
             cin >> documento;
             for (unsigned int i =0 ;i < contan;i++ ){
+                contador++;
                 if (*(anfitriones[i].getDocumento()) == documento){
+                    cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
                     anfitriones[i].menu(huespedes,alojamientos,reservas,conthu,contR,contA);
                     bandera = true;
+                    contador = 0;
                     break;
                 }
             }
             if (!bandera){
                 cout<<"\nLo sentimos, no te encuentras registrado como Anfitrion\n"<<endl;
+                cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                contador = 0;
             }
             break;
         case 2:
             cout<<"\nIngrese el documento del huesped: "<<endl;
             cin >> documento;
             for (unsigned int i =0 ;i < conthu;i++ ){
+                contador++;
                 if (*(huespedes[i].getDocumento()) == documento){
+                    cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
                     huespedes[i].menu(huespedes,alojamientos,reservas,conthu,contR,contA);
                     bandera = true;
+                    contador = 0;
                     break;
                 }
             }
             if (!bandera){
                 cout<<"\nLo sentimos no te encuentras registrado como huesped\n"<<endl;
+                cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                contador = 0;
             }
             break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;return;
@@ -92,10 +102,9 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
             cout << "\nOpcion no valida, intente de nuevo.\n" << endl;
         }
     }while(true);
-
 }
 
-void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
+void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2,unsigned int &contador){
     ifstream archivo(nombre); // abre y posiciona al final
     string linea,codigo,documento;
     string arr[600];
@@ -114,6 +123,7 @@ void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
         }
 
         for(unsigned short int i = 0 ; i < 100 ; i++){
+            contador++;
             if(arr[i] == ""){break;}
 
             if(documento == arr[i]){
@@ -131,7 +141,7 @@ void cantidadLineas(string nombre, unsigned int &conta1,unsigned int &conta2){
     archivo.close();
 }
 
-void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones) {
+void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones,unsigned int &contador) {
     fstream archivo("Alojamientos.txt");
     string linea;
     if (!archivo) {
@@ -151,6 +161,7 @@ void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones) {
 
         // Buscar si el anfitrión ya existe
         for (int i = 0; i < contaAnfitri; i++) {
+            contador++;
             if (documento == *(anfitriones[i].getDocumento())) {
                 documentoPtr = anfitriones[i].getDocumento();
                 indiceAnfitrion = i;
@@ -178,7 +189,7 @@ void crearAnfitriones(Alojamiento* alojamientos, Anfitrion* anfitriones) {
     archivo.close();
 }
 
-void crearHuespedes(Reserva** reservas, Huesped* huespedes){
+void crearHuespedes(Reserva** reservas, Huesped* huespedes,unsigned int &contador){
     fstream archivo("Reservas.txt");
     string linea;
     if (!archivo) {
@@ -198,6 +209,7 @@ void crearHuespedes(Reserva** reservas, Huesped* huespedes){
 
         // Buscar si el huésped ya existe
         for (int i = 0; i < contaHuesp; i++) {
+            contador++;
             if (documento == *(huespedes[i].getDocumento())) {
                 documentoPtr = huespedes[i].getDocumento();
                 indiceHuesped = i;
@@ -297,8 +309,6 @@ void actualizarHistorico(Reserva **reservas,unsigned int &tamano,unsigned int &c
                         <<reservas[i]->getMetodoPago()<<" "<<reservas[i]->getMonto()<<endl;
                 delete reservas[i];
                 reservas[i] = nullptr;
-            }else{
-                break;
             }
         }
     }
