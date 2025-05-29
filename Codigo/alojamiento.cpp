@@ -215,5 +215,5 @@ void Alojamiento::setCount(unsigned short int _count){
 }
 
 int Alojamiento::getContador() {
-    return contador;
+    return sizeof(Alojamiento)*contador;
 }

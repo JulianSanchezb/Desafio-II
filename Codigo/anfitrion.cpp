@@ -53,7 +53,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
     short int decision;
     unsigned int contador = 0;
     do{
-        cout<<"\n-----Bienvenido, Anfitrion-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
+        cout<<"\n\n-----Bienvenido, Anfitrion-----\n\nIngrese el numero de la accion que desea realizar"<<endl;
         cout<<"1.Consultar reservas"<<endl;
         cout<<"2.Cancelar reserva"<<endl;
         cout<<"3.Actualizar historico"<<endl;
@@ -63,6 +63,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
         switch (decision) {
         case 1:consultaReserva(contador);
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n\n";
+            cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
             contador = 0;
             break;
         case 2:
@@ -85,6 +86,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
             }while(!bandera);
             cancelareserva(huespedes,reservas,alojamiento,tamanoH,tamanoR,tamanoA,codigo,contador);
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n\n";
+            cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
             contador = 0;
             break;
         case 3:actualizarHistorico(reservas,tamanoR,contador);
@@ -103,6 +105,7 @@ void Anfitrion::menu(Huesped *huespedes, Alojamiento* alojamiento, Reserva** res
                 }
             }
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
             contador = 0;
             break;
         case 4:cout << "Saliendo del menu..." << endl;return;
@@ -156,5 +159,5 @@ void Anfitrion::setAlojamiento(Alojamiento *_alojamiento) {
 }
 
 int Anfitrion::getContador() {
-    return contador;
+    return sizeof(Anfitrion)*contador;
 }

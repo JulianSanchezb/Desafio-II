@@ -23,12 +23,15 @@ int main() {
     asignarReservasA(alojamientos,reservas,alojam,reser,contador);
 
     cout<<"Se hicieron "<<contador<<" iteraciones en la lectura de datos y se usa el tipo de dato streamstring "<<reser + alojam<<endl;
+    cout<<"La memoria usada por concepto de objetos creados es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
+
     contador = 0;
 
     ingresar_sistema(huespedes,anfitriones,alojamientos,reservas,anfitri,huesp,reser,alojam);
 
     actualizarpermanentereserva(reservas,huespedes,reser,huesp,contador);
     cout<<"Se hicieron "<<contador<<" iteraciones en la escritura de datos en los txt"<<endl;
+    cout<<"La memoria usada por concepto de objetos creados es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
 
     delete[] huespedes;
     delete[] reservas;

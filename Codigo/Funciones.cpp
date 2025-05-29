@@ -66,6 +66,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
                 contador++;
                 if (*(anfitriones[i].getDocumento()) == documento){
                     cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                    cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes"<<endl;
                     anfitriones[i].menu(huespedes,alojamientos,reservas,conthu,contR,contA);
                     bandera = true;
                     contador = 0;
@@ -75,6 +76,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
             if (!bandera){
                 cout<<"\nLo sentimos, no te encuentras registrado como Anfitrion\n"<<endl;
                 cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes"<<endl;
                 contador = 0;
             }
             break;
@@ -85,6 +87,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
                 contador++;
                 if (*(huespedes[i].getDocumento()) == documento){
                     cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                    cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes"<<endl;
                     huespedes[i].menu(huespedes,alojamientos,reservas,conthu,contR,contA);
                     bandera = true;
                     contador = 0;
@@ -94,6 +97,7 @@ void ingresar_sistema(Huesped *huespedes,Anfitrion *anfitriones,Alojamiento* alo
             if (!bandera){
                 cout<<"\nLo sentimos no te encuentras registrado como huesped\n"<<endl;
                 cout<<"\nSe hicieron una cantidad de "<<contador<<" iteraciones en la verificacion del documento\n\n";
+                cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes"<<endl;
                 contador = 0;
             }
             break;
@@ -300,8 +304,9 @@ void actualizarHistorico(Reserva **reservas,unsigned int &tamano,unsigned int &c
     }
 
     for(unsigned int i = indice;i < tamano;i++){
+
         contador++;
-        if(reservas[i]){
+        if(reservas[i] != nullptr){
             if(reservas[i]->getDate() < fechaCorte){
                 archivo <<reservas[i]->getCodigo()<<" "<<reservas[i]->getCodigoA()<<" "<<reservas[i]->getDocumentoValor()<<" "
                         <<(reservas[i]->getDate()).getDia()<<"/"<<(reservas[i]->getDate()).getMes()<<"/"<<(reservas[i]->getDate()).getAnio()<<" "

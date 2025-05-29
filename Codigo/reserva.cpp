@@ -33,7 +33,6 @@ Reserva::Reserva(string* _documento,string _fechaI,unsigned short int _noches,st
 
 Reserva::~Reserva() {
     if (documento != nullptr) {
-        delete documento;
         documento = nullptr;
         contador--;
     }
@@ -161,5 +160,5 @@ void Reserva::setComentario(const string& _comentario) {
 }
 
 int Reserva::getContador() {
-    return contador;
+    return sizeof(Reserva)*contador;
 }

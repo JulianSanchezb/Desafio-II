@@ -1,5 +1,6 @@
 #include "huesped.h"
 #include "reserva.h"
+#include "alojamiento.h"
 #include "Funciones.h"
 #include "FuncionesReserva.h"
 #include <iostream>
@@ -42,6 +43,7 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
         switch (decision) {
         case 1:reserva(alojamientos,reservas,huespedes,contA,contR,tamano2,documento,contador);
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
             contador = 0;
                 break;
         case 2:
@@ -62,6 +64,7 @@ void Huesped::menu(Huesped *huespedes, Alojamiento* alojamientos,Reserva** reser
             }while(!bandera);
             cancelareserva(huespedes,reservas,alojamientos,tamano2,contR,contA,codigo,contador);
             cout<<"\nSe hicieron "<<contador<<" iteraciones en la ultima funcionalidad\n";
+            cout<<"La memoria usada por concepto de objetos creado es: "<<(Alojamiento::getContador())+(Anfitrion::getContador())+(Huesped::getContador())+(Reserva::getContador())<<" bytes\n\n";
             contador = 0;
             break;
         case 3:cout << "\nSaliendo del menu...\n" << endl;break;
@@ -164,5 +167,5 @@ void Huesped::setCount(unsigned short int _count){
 }
 
 int Huesped::getContador() {
-    return contador;
+    return sizeof(Huesped)*contador;
 }
