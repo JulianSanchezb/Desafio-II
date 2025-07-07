@@ -28,6 +28,7 @@ public:
     bool disponibilidad(const string& fechaInicio, unsigned short int noches, const string& municipio, unsigned int &contador);
 
     bool filtro(float puntuacionusu, unsigned int coste, unsigned short decision);
+
     void imprimir() const;
 
     void cancelareserva(const string& codigo, unsigned int &contador);
