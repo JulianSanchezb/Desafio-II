@@ -90,7 +90,7 @@ void comentario(string codigoR){
     cout<<"Que deseas comentar/preguntar al anfitrion?" <<endl;
     do{
         contador = 0;
-        cout<<"Recuerda tienes maximo 1000 caracteres no te preocupes si te pasas te lo recordare "<<endl;
+        cout<<"Recuerda tienes maximo 1000 caracteres; pero no te preocupes, si te pasas, te lo recordare "<<endl;
         getline(cin >> ws, comentario);
         for (char c : comentario) {
             if (c != ' ') {
@@ -112,13 +112,13 @@ bool usofiltro(Alojamiento& alojamientos,unsigned int precio,float puntuacion,un
     bool retorno = false;
 
     switch (decision) {
-    case 0:
+    case 1:
         retorno = alojamientos.filtro(puntuacion,precio,0);
         return retorno;
-    case 1:
+    case 2:
         retorno = alojamientos.filtro(puntuacion,0,1);
         return retorno;
-    case 2:
+    case 3:
         retorno = alojamientos.filtro(0.0,precio,2);
         return retorno;
     default:
@@ -168,7 +168,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
         contadoriteraciones++;
         if(alojamientos[i].disponibilidad(fecha,noches,municipio,contadoriteraciones)){
             alojamientos[i].imprimir();
-            cout<<"\n-----El alojamiento corresponde al ------ \n==========="<<alojamientos[i].getCodigo()<<"============"<<endl;
+            cout<<"\n-----El alojamiento corresponde al codigo: ------ \n==========="<<alojamientos[i].getCodigo()<<"============"<<endl;
             arr[contador] = alojamientos[i].getCodigo();
             bandera = true;
             contador++;
@@ -188,9 +188,9 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
 
     cout<<"\nDeseas filtrar por valor maximo, puntuacion minima?"<<endl;
     do{
-        cout<<"1. para si \n0. para no"<<endl;
+        cout<<"1. para si \n2. para no"<<endl;
         cin >> decision;
-    }while(decision != 0 && decision != 1);
+    }while(decision != 2 && decision != 1);
 
     bandera = false;
 
@@ -200,23 +200,23 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
     if(decision == 1){
         do{
             cout<<"\nEscoja la opcion que desee: "<<endl;
-            cout<<"0. Filtrar por valor maximo y puntuacion minima "<<endl;
-            cout<<"1. Filtar unicamento por puntuacion minima"<<endl;
-            cout<<"2. Filtrar unicamento por valor maximo"<<endl;
+            cout<<"1. Filtrar por valor maximo y puntuacion minima "<<endl;
+            cout<<"2. Filtar unicamente por puntuacion minima"<<endl;
+            cout<<"3. Filtrar unicamente por valor maximo"<<endl;
             cin >> decision;
-        }while((decision < 0) || (decision > 2));
+        }while((decision < 1) || (decision > 3));
         switch (decision) {
-        case 0:
+        case 1:
             cout<<"\nIngrese el valor maximo"<<endl;
             cin>>precio;
-            cout<<"\nIngrese la puntuacion minima"<<endl;
+            cout<<"\n\nIngrese la puntuacion minima"<<endl;
             do{
                 cout<<"Entre 0.0-5.0"<<endl;
                 cin>>puntuacion;
             }while((puntuacion < 0.0) || (puntuacion > 5.0) );
 
             break;
-        case 1:
+        case 2:
             cout<<"Ingrese la puntuacion minima"<<endl;
             do{
                 cout<<"Entre 0.0-5.0"<<endl;
@@ -224,8 +224,8 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
             }while((puntuacion<0.0) && (puntuacion>5.0) );
 
             break;
-        case 2:
-            cout<<"Ingrese el valor maximo"<<endl;
+        case 3:
+            cout<<"\nIngrese el valor maximo"<<endl;
             cin>>precio;
 
             break;
@@ -242,7 +242,7 @@ void reserva(Alojamiento* alojamientos,Reserva** reservas,Huesped* huespedes,
                 if(usofiltro(alojamientos[i],precio,puntuacion,decision)){
                     arr[contador] = alojamientos[i].getCodigo();
                     alojamientos[i].imprimir();
-                    cout<<"El alojamiento corresponde al ------"<<alojamientos[i].getCodigo()<<endl;
+                    cout<<"\n-----El alojamiento corresponde al codigo: ------ \n==========="<<alojamientos[i].getCodigo()<<"============"<<endl;
                     bandera = true;
                     contador++;
                 }

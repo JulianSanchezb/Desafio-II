@@ -29,6 +29,7 @@ Anfitrion::Anfitrion(string _puntuacion, string _antiguedad, string _documento) 
 int Anfitrion::contador = 0;
 
 void Anfitrion::consultaReserva(unsigned int &contador){
+    unsigned int c = 1;
     for (unsigned int i = 0; i < contaAlojamientos; ++i){
         if (alojamientos[i] != nullptr) {
             if(alojamientos[i]->getCount() == 0){
@@ -37,9 +38,10 @@ void Anfitrion::consultaReserva(unsigned int &contador){
             for(unsigned short int j = 0; j<alojamientos[i]->getCount();j++){
                 contador++;
                 if (alojamientos[i]->getReserva(j) != nullptr){
-
+                     cout<<"\nReserva #"<<c<<"\n\n";
                     (alojamientos[i]->getReserva(j))->mostrar();
-                    cout << endl;
+                     cout << endl;
+                    c++;
                 }
             }
         }
